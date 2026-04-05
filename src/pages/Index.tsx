@@ -10,7 +10,7 @@ import FaqSection from "@/components/landing/FaqSection";
 import Footer from "@/components/landing/Footer";
 import { MessageCircle } from "lucide-react";
 
-const WA_LINK = "https://wa.me/1234567890?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
+const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const Index = () => (
   <>

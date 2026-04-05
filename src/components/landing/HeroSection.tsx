@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { MessageCircle, Zap } from "lucide-react";
 import phoneMockup from "@/assets/phone-mockup.png";
+import toddoLogo from "@/assets/toddo-logo.png";
+import UrgencyCounter from "./UrgencyCounter";
 
-const WA_LINK = "https://wa.me/1234567890?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
+const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const HeroSection = () => (
   <section className="relative overflow-hidden bg-surface-warm pt-6 pb-16 md:pt-12 md:pb-24">
@@ -14,6 +16,13 @@ const HeroSection = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        {/* Logo */}
+        <img
+          src={toddoLogo}
+          alt="TODDO AI — Marketing & Tecnologías"
+          className="mx-auto mb-6 h-12 w-auto md:mx-0 md:h-14"
+        />
+
         <span className="mb-3 inline-block rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground">
           🔥 Cupos limitados — 60 días GRATIS
         </span>
@@ -27,7 +36,11 @@ const HeroSection = () => (
           Un empleado con inteligencia artificial que responde, agenda, recuerda y da seguimiento a tus clientes <strong>las 24 horas, los 7 días</strong>. Sin contratar personal extra.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
+        <div className="mt-6">
+          <UrgencyCounter />
+        </div>
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
           <a
             href={WA_LINK}
             target="_blank"
