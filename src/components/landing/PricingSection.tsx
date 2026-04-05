@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Check, MessageCircle } from "lucide-react";
 
-const WA_LINK = "https://wa.me/1234567890?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
+const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const PricingSection = () => (
   <section className="py-16 md:py-24 bg-background" id="precios">
