@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle, Zap } from "lucide-react";
 import phoneMockup from "@/assets/phone-mockup.png";
-import toddoLogo from "@/assets/toddo-logo.png";
+import calendarIcon from "@/assets/calendar-icon.png";
 import UrgencyCounter from "./UrgencyCounter";
 
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
@@ -16,12 +16,25 @@ const HeroSection = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Logo */}
-        <img
-          src={toddoLogo}
-          alt="TODDO AI — Marketing & Tecnologías"
-          className="mx-auto mb-6 h-12 w-auto md:mx-0 md:h-14"
-        />
+        {/* Brand */}
+        <div className="mx-auto mb-6 flex items-center justify-center gap-3 md:mx-0 md:justify-start">
+          <img
+            src={calendarIcon}
+            alt="TODDO AI ícono"
+            className="h-12 w-12 md:h-14 md:w-14 drop-shadow-md"
+          />
+          <div className="flex flex-col leading-none">
+            <span className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
+              TODDO{" "}
+              <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                AI
+              </span>
+            </span>
+            <span className="text-[0.65rem] md:text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+              Marketing & Tecnologías
+            </span>
+          </div>
+        </div>
 
         <span className="mb-3 inline-block rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground">
           🔥 Cupos limitados — 60 días GRATIS

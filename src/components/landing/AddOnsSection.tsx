@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { Palette, Globe, UserPlus, Code, Megaphone } from "lucide-react";
 
 const addons = [
-  { icon: Palette, title: "Material de marketing", desc: "Diseños profesionales para tus redes sociales." },
-  { icon: Globe, title: "Configuración de dominio", desc: "Te ayudamos a conectar tu dominio personalizado." },
-  { icon: UserPlus, title: "Proveedores adicionales", desc: "Agrega más miembros de tu equipo al sistema." },
-  { icon: Code, title: "Desarrollo a medida", desc: "Funcionalidades personalizadas para tu negocio." },
-  { icon: Megaphone, title: "Campañas de WhatsApp", desc: "Envía promociones masivas a tu base de clientes." },
+  { icon: Palette, title: "Material de marketing", desc: "Diseños profesionales para tus redes sociales.", price: "desde $15" },
+  { icon: Globe, title: "Configuración de dominio", desc: "Te ayudamos a conectar tu dominio personalizado.", price: "desde $10" },
+  { icon: UserPlus, title: "Proveedores adicionales", desc: "Agrega más miembros de tu equipo al sistema.", price: "desde $5/mes" },
+  { icon: Code, title: "Desarrollo a medida", desc: "Funcionalidades personalizadas para tu negocio.", price: "desde $50" },
+  { icon: Megaphone, title: "Campañas de WhatsApp", desc: "Envía promociones masivas a tu base de clientes.", price: "desde $20" },
 ];
 
 const AddOnsSection = () => (
@@ -40,6 +40,9 @@ const AddOnsSection = () => (
             <div>
               <h3 className="font-bold text-foreground">{a.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{a.desc}</p>
+              <span className="mt-2 inline-block rounded-full bg-primary/10 px-3 py-0.5 text-xs font-bold text-primary">
+                {a.price}
+              </span>
             </div>
           </motion.div>
         ))}
