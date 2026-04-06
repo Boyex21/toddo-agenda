@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { Palette, Globe, UserPlus, Code, Megaphone } from "lucide-react";
 
 const addons = [
-  { icon: Palette, title: "Material de marketing", desc: "Diseños profesionales para tus redes sociales.", price: "desde $15" },
-  { icon: Globe, title: "Configuración de dominio", desc: "Te ayudamos a conectar tu dominio personalizado.", price: "desde $10" },
-  { icon: UserPlus, title: "Proveedores adicionales", desc: "Agrega más miembros de tu equipo al sistema.", price: "desde $5/mes" },
-  { icon: Code, title: "Desarrollo a medida", desc: "Funcionalidades personalizadas para tu negocio.", price: "desde $50" },
-  { icon: Megaphone, title: "Campañas de WhatsApp", desc: "Envía promociones masivas a tu base de clientes.", price: "desde $20" },
+  { icon: Palette, title: "Material publicitario", desc: "1 Banner, 2 QR en PVC, 2 adhesivos profesionales para tu negocio.", price: "$60 único" },
+  { icon: Globe, title: "Dominio e instalación independiente", desc: "Configuración de tu dominio personalizado con instalación dedicada.", price: "$60 config + $20/mes" },
+  { icon: UserPlus, title: "Proveedor extra", desc: "Agrega más miembros de tu equipo al sistema.", price: "$5/mes" },
+  { icon: Code, title: "Desarrollo IA y personalización", desc: "Programación, inteligencia artificial y funcionalidades a medida.", price: "$25/hora" },
+  { icon: Megaphone, title: "Mensajes masivos por WhatsApp", desc: "Envía ofertas, combos y promociones a clientes o leads desde tu número de negocio.", price: "$5 c/u" },
 ];
 
 const AddOnsSection = () => (

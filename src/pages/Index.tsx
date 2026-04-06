@@ -2,6 +2,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import PainPointsSection from "@/components/landing/PainPointsSection";
 import SolutionSection from "@/components/landing/SolutionSection";
 import BenefitsSection from "@/components/landing/BenefitsSection";
+import DemoSection from "@/components/landing/DemoSection";
 import SocialProofSection from "@/components/landing/SocialProofSection";
 import PricingSection from "@/components/landing/PricingSection";
 import AddOnsSection from "@/components/landing/AddOnsSection";
@@ -18,6 +19,7 @@ const Index = () => (
     <PainPointsSection />
     <SolutionSection />
     <BenefitsSection />
+    <DemoSection />
     <CtaBanner headline="¿Listo para vender en automático?" />
     <SocialProofSection />
     <PricingSection />

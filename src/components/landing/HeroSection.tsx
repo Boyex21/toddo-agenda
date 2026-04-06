@@ -17,20 +17,20 @@ const HeroSection = () => (
         transition={{ duration: 0.5 }}
       >
         {/* Brand */}
-        <div className="mx-auto mb-6 flex items-center justify-center gap-3 md:mx-0 md:justify-start">
+        <div className="mx-auto mb-6 flex flex-col items-center md:mx-0 md:items-start">
           <img
             src={calendarIcon}
             alt="TODDO AI ícono"
-            className="h-12 w-12 md:h-14 md:w-14 drop-shadow-md"
+            className="h-20 w-20 md:h-24 md:w-24 drop-shadow-lg"
           />
-          <div className="flex flex-col leading-none">
-            <span className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
+          <div className="mt-3 flex flex-col items-center md:items-start leading-none">
+            <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
               TODDO{" "}
               <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
                 AI
               </span>
             </span>
-            <span className="text-[0.65rem] md:text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+            <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
               Marketing & Tecnologías
             </span>
           </div>
