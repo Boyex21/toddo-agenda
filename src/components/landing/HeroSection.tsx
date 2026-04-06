@@ -30,8 +30,8 @@ const HeroSection = () => (
                 AI
               </span>
             </span>
-            <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-              Marketing & Tecnologías
+             <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+              Agenda con inteligencia artificial
             </span>
           </div>
         </div>
@@ -81,11 +81,11 @@ const HeroSection = () => (
 
       {/* Phone mockup */}
       <motion.div
-        className="flex-shrink-0 w-48 md:w-64"
+         className="flex-shrink-0 w-40 md:w-56"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        style={{ transform: "rotate(3deg)" }}
+        style={{ transform: "rotate(-8deg)" }}
       >
         <div className="relative rounded-[2.5rem] border-[6px] border-foreground/80 bg-foreground/90 p-2 shadow-2xl animate-float">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-foreground/80 rounded-b-2xl z-10" />
