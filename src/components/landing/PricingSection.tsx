@@ -21,6 +21,10 @@ const PricingSection = () => (
         </h2>
       </motion.div>
 
+      <div className="mt-6 flex justify-center">
+        <UrgencyCounter />
+      </div>
+
       {/* Installation */}
       <motion.div
         className="mt-10 mx-auto max-w-md rounded-2xl border-2 border-primary bg-card p-6 text-center shadow-md"
