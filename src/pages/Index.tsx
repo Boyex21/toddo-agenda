@@ -19,6 +19,7 @@ const Index = () => (
     <PainPointsSection />
     <SolutionSection />
     <BenefitsSection />
+    <DemoSection />
     <CtaBanner headline="¿Listo para vender en automático?" />
     <SocialProofSection />
     <PricingSection />
