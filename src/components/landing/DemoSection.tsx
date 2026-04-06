@@ -52,6 +52,7 @@ const DemoSection = () => (
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
         >
+          <span className="mb-3 text-lg font-bold text-foreground">⏰ Recordatorios</span>
           <div className="relative rounded-[2.5rem] border-[6px] border-foreground/80 bg-foreground/90 p-2 shadow-2xl">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-foreground/80 rounded-b-2xl" />
             <img
