@@ -16,7 +16,7 @@ const CtaBanner = ({ headline = "¿Listo para vender en automático?" }: { headl
         {headline}
       </motion.h2>
       <div className="mt-6 flex justify-center">
-        <UrgencyCounter />
+        <UrgencyCounter variant="on-primary" />
       </div>
       <motion.div
         className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center"
