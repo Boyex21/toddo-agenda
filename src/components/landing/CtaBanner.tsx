@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import UrgencyCounter from "./UrgencyCounter";
 
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
@@ -14,8 +15,11 @@ const CtaBanner = ({ headline = "¿Listo para vender en automático?" }: { headl
       >
         {headline}
       </motion.h2>
+      <div className="mt-6 flex justify-center">
+        <UrgencyCounter />
+      </div>
       <motion.div
-        className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center"
+        className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center"
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

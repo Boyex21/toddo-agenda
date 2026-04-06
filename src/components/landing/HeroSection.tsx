@@ -30,8 +30,8 @@ const HeroSection = () => (
                 AI
               </span>
             </span>
-            <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-              Marketing & Tecnologías
+             <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+              Agenda con inteligencia artificial
             </span>
           </div>
         </div>
