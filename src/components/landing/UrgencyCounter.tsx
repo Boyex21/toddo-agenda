@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const UrgencyCounter = () => {
+const UrgencyCounter = ({ variant = "default" }: { variant?: "default" | "on-primary" }) => {
   const [spots, setSpots] = useState(10);
 
   useEffect(() => {
@@ -12,9 +12,14 @@ const UrgencyCounter = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const styles =
+    variant === "on-primary"
+      ? "border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground"
+      : "border-destructive/30 bg-destructive/10 text-destructive";
+
   return (
     <motion.div
-      className="flex items-center justify-center gap-2 rounded-2xl border-2 border-destructive/30 bg-destructive/10 px-5 py-3 text-sm font-bold text-destructive"
+      className={`flex items-center justify-center gap-2 rounded-2xl border-2 px-5 py-3 text-sm font-bold ${styles}`}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay: 0.3 }}
@@ -24,8 +29,8 @@ const UrgencyCounter = () => {
         ¡Solo quedan{" "}
         <motion.span
           key={spots}
-          initial={{ scale: 1.4, color: "hsl(0 84% 50%)" }}
-          animate={{ scale: 1, color: "hsl(0 84% 60%)" }}
+          initial={{ scale: 1.4 }}
+          animate={{ scale: 1 }}
           className="inline-block text-lg"
         >
           {spots}

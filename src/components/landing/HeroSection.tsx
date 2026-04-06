@@ -87,8 +87,8 @@ const HeroSection = () => (
         transition={{ duration: 0.6, delay: 0.2 }}
         style={{ transform: "rotate(-8deg)" }}
       >
-        <div className="relative rounded-[2.5rem] border-[6px] border-foreground/80 bg-foreground/90 p-2 shadow-2xl animate-float">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-foreground/80 rounded-b-2xl z-10" />
+        <div className="relative rounded-[2rem] border-[3px] border-foreground/70 bg-foreground/80 p-1.5 shadow-2xl animate-float">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-16 bg-foreground/70 rounded-b-xl z-10" />
           <img
             src={phoneMockup}
             alt="Demostración del chat automatizado por WhatsApp"
