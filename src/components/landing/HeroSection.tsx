@@ -81,17 +81,21 @@ const HeroSection = () => (
 
       {/* Phone mockup */}
       <motion.div
-        className="flex-shrink-0 w-56 md:w-72"
+        className="flex-shrink-0 w-48 md:w-64"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
+        style={{ transform: "rotate(3deg)" }}
       >
-        <img
-          src={phoneMockup}
-          alt="Demostración del chat automatizado por WhatsApp"
-          className="w-full drop-shadow-2xl animate-float"
-          loading="eager"
-        />
+        <div className="relative rounded-[2.5rem] border-[6px] border-foreground/80 bg-foreground/90 p-2 shadow-2xl animate-float">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-foreground/80 rounded-b-2xl z-10" />
+          <img
+            src={phoneMockup}
+            alt="Demostración del chat automatizado por WhatsApp"
+            className="w-full rounded-[2rem]"
+            loading="eager"
+          />
+        </div>
       </motion.div>
     </div>
   </section>
