@@ -17,20 +17,40 @@ const HeroSection = () => (
         transition={{ duration: 0.5 }}
       >
         {/* Brand */}
-        <div className="mx-auto mb-6 flex flex-col items-center md:mx-0 md:items-start">
+        {/* Mobile: icon on top, stacked */}
+        <div className="mx-auto mb-6 flex flex-col items-center md:hidden">
           <img
             src={calendarIcon}
             alt="TODDO AI ícono"
-            className="h-20 w-20 md:h-24 md:w-24 drop-shadow-lg"
+            className="h-20 w-20 drop-shadow-lg"
           />
-          <div className="mt-3 flex flex-col items-center md:items-start leading-none">
-            <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+          <div className="mt-3 flex flex-col items-center leading-none">
+            <span className="text-4xl font-extrabold tracking-tight text-foreground">
               TODDO{" "}
               <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
                 AI
               </span>
             </span>
-             <span className="mt-1 text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+            <span className="mt-1 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+              Agenda con inteligencia artificial
+            </span>
+          </div>
+        </div>
+        {/* Desktop: icon beside name */}
+        <div className="hidden md:flex items-center gap-4 mb-6">
+          <img
+            src={calendarIcon}
+            alt="TODDO AI ícono"
+            className="h-16 w-16 drop-shadow-lg"
+          />
+          <div className="flex flex-col leading-none">
+            <span className="text-5xl font-extrabold tracking-tight text-foreground">
+              TODDO{" "}
+              <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                AI
+              </span>
+            </span>
+            <span className="mt-1 text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
               Agenda con inteligencia artificial
             </span>
           </div>
