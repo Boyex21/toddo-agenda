@@ -106,6 +106,9 @@ const PricingSection = () => (
           </a>
         </motion.div>
       </div>
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        🎁 Solicita tu demostración de 60 días GRATIS · Sin compromiso · Cancela cuando quieras
+      </p>
     </div>
   </section>
 );
