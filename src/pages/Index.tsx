@@ -19,10 +19,13 @@ const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%2
 const Index = () => (
   <>
     <HeroSection />
+    <DeviceCompatibilitySection />
     <PainPointsSection />
     <SolutionSection />
+    <NichesSection />
     <BenefitsSection />
     <DemoSection />
+    <YouTubeSection />
     <CtaBanner headline="¿Listo para vender en automático?" />
     <SocialProofSection />
     <PricingSection />
