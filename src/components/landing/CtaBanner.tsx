@@ -43,6 +43,9 @@ const CtaBanner = ({ headline = "¿Listo para vender en automático?" }: { headl
           Activar prueba gratis
         </a>
       </motion.div>
+      <p className="mt-4 text-sm text-primary-foreground/80">
+        ✅ 60 días GRATIS sin compromiso · ✅ Sin tarjeta de crédito · ✅ Cancela cuando quieras
+      </p>
     </div>
   </section>
 );
