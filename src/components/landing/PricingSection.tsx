@@ -80,9 +80,9 @@ const PricingSection = () => (
           <span className="absolute -top-3 right-4 rounded-full bg-primary px-3 py-0.5 text-xs font-bold text-primary-foreground">
             Más popular
           </span>
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Plan Completo</p>
-          <p className="mt-2 text-4xl font-extrabold text-foreground">$50<span className="text-lg font-medium text-muted-foreground">/mes</span></p>
-          <ul className="mt-6 space-y-3 text-foreground">
+          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Plan Completo</p>
+          <p className="mt-2 text-4xl font-extrabold text-white">$50<span className="text-lg font-medium text-white/60">/mes</span></p>
+          <ul className="mt-6 space-y-3 text-white">
             {[
               "Todo del Plan Esencial",
               "Recordatorios automáticos",
