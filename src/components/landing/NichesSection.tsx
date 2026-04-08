@@ -113,6 +113,29 @@ const NichesSection = () => (
         })}
       </div>
 
+      {/* Extra niches without model */}
+      <motion.div
+        className="mt-10 md:mt-16 flex justify-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+      >
+        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+          {extraNiches.map((n, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 md:p-5 border border-white/10 hover:bg-white/15 transition-colors flex-1"
+            >
+              <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+                <n.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
+              </div>
+              <span className="text-base md:text-lg lg:text-xl font-bold text-white">{n.label}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* Custom niche CTA */}
       <motion.div
         className="mt-10 text-center"
