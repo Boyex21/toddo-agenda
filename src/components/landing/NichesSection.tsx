@@ -22,7 +22,6 @@ const nicheGroups = [
     niches: [
       { icon: SmilePlus, label: "Odontologías" },
       { icon: UtensilsCrossed, label: "Restaurantes" },
-      { icon: Briefcase, label: "Profesionales" },
     ],
   },
   {
@@ -32,7 +31,6 @@ const nicheGroups = [
     niches: [
       { icon: Truck, label: "Delivery" },
       { icon: DoorOpen, label: "Puerta a Puerta" },
-      { icon: MapPin, label: "Rastreo GPS" },
     ],
   },
   {
@@ -44,6 +42,11 @@ const nicheGroups = [
       { icon: Wrench, label: "Mecánicas" },
     ],
   },
+];
+
+const extraNiches = [
+  { icon: Briefcase, label: "Profesionales" },
+  { icon: MapPin, label: "Rastreo GPS" },
 ];
 
 const NichesSection = () => (
