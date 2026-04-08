@@ -13,10 +13,10 @@ const PricingSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="inline-block rounded-full bg-highlight/10 px-4 py-1 text-sm font-semibold text-highlight">
+        <span className="inline-block rounded-full bg-highlight/20 px-4 py-1 text-sm font-semibold text-highlight">
           Oferta de lanzamiento
         </span>
-        <h2 className="mt-3 text-section md:text-section-lg text-foreground">
+        <h2 className="mt-3 text-section md:text-section-lg text-white">
           Precios que se pagan solos
         </h2>
       </motion.div>
