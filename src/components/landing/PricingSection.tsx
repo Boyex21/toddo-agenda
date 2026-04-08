@@ -44,7 +44,7 @@ const PricingSection = () => (
       <div className="mt-8 grid gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
         {/* Plan 1 */}
         <motion.div
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="rounded-2xl border border-white/10 bg-white/10 p-6 shadow-sm"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
