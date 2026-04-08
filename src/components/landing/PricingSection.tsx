@@ -71,7 +71,7 @@ const PricingSection = () => (
 
         {/* Plan 2 */}
         <motion.div
-          className="relative rounded-2xl border-2 border-primary bg-card p-6 shadow-lg"
+          className="relative rounded-2xl border-2 border-primary bg-white/10 p-6 shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
