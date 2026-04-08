@@ -49,9 +49,9 @@ const PricingSection = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Plan Esencial</p>
-          <p className="mt-2 text-4xl font-extrabold text-foreground">$25<span className="text-lg font-medium text-muted-foreground">/mes</span></p>
-          <ul className="mt-6 space-y-3 text-foreground">
+          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Plan Esencial</p>
+          <p className="mt-2 text-4xl font-extrabold text-white">$25<span className="text-lg font-medium text-white/60">/mes</span></p>
+          <ul className="mt-6 space-y-3 text-white">
             {["Empleado IA 24/7", "Agenda automática", "Alertas de nuevas citas"].map((f) => (
               <li key={f} className="flex items-start gap-2">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
