@@ -28,7 +28,7 @@ const FaqSection = () => (
   <section className="py-16 md:py-24 bg-foreground" id="faq">
     <div className="container mx-auto max-w-2xl">
       <motion.h2
-        className="text-section md:text-section-lg text-center text-foreground"
+        className="text-section md:text-section-lg text-center text-white"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
