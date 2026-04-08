@@ -25,7 +25,7 @@ const faqs = [
 ];
 
 const FaqSection = () => (
-  <section className="py-16 md:py-24 bg-background" id="faq">
+  <section className="py-16 md:py-24 bg-foreground" id="faq">
     <div className="container mx-auto max-w-2xl">
       <motion.h2
         className="text-section md:text-section-lg text-center text-foreground"

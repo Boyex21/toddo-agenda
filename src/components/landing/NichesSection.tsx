@@ -2,18 +2,48 @@ import { motion } from "framer-motion";
 import { Scissors, Sparkles, SmilePlus, UtensilsCrossed, Truck, DoorOpen, MapPin, Droplets, Wrench, Briefcase, Settings } from "lucide-react";
 import nicheBeauty from "@/assets/niche-beauty.png";
 import nicheBarber from "@/assets/niche-barber.png";
+import nicheDelivery from "@/assets/niche-delivery.png";
+import nicheDental from "@/assets/niche-dental.png";
 
-const niches = [
-  { icon: Scissors, label: "Peluquerías" },
-  { icon: Sparkles, label: "Salones de belleza" },
-  { icon: SmilePlus, label: "Odontologías" },
-  { icon: UtensilsCrossed, label: "Restaurantes" },
-  { icon: Truck, label: "Delivery" },
-  { icon: DoorOpen, label: "Puerta a Puerta" },
-  { icon: MapPin, label: "Rastreo GPS" },
-  { icon: Droplets, label: "Lavadoras y Lubricadoras" },
-  { icon: Wrench, label: "Mecánicas" },
-  { icon: Briefcase, label: "Profesionales" },
+const nicheGroups = [
+  {
+    image: nicheBarber,
+    alt: "Barbero profesional",
+    imagePosition: "right" as const,
+    niches: [
+      { icon: Scissors, label: "Peluquerías" },
+      { icon: Sparkles, label: "Salones de belleza" },
+    ],
+  },
+  {
+    image: nicheBeauty,
+    alt: "Estilista profesional",
+    imagePosition: "left" as const,
+    niches: [
+      { icon: SmilePlus, label: "Odontologías" },
+      { icon: UtensilsCrossed, label: "Restaurantes" },
+      { icon: Briefcase, label: "Profesionales" },
+    ],
+  },
+  {
+    image: nicheDelivery,
+    alt: "Repartidor profesional",
+    imagePosition: "right" as const,
+    niches: [
+      { icon: Truck, label: "Delivery" },
+      { icon: DoorOpen, label: "Puerta a Puerta" },
+      { icon: MapPin, label: "Rastreo GPS" },
+    ],
+  },
+  {
+    image: nicheDental,
+    alt: "Profesional de salud",
+    imagePosition: "left" as const,
+    niches: [
+      { icon: Droplets, label: "Lavadoras y Lubricadoras" },
+      { icon: Wrench, label: "Mecánicas" },
+    ],
+  },
 ];
 
 const NichesSection = () => (
@@ -21,7 +51,7 @@ const NichesSection = () => (
     <div className="container mx-auto">
       {/* Header */}
       <motion.div
-        className="text-center mb-12"
+        className="text-center mb-14"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -37,66 +67,63 @@ const NichesSection = () => (
         </p>
       </motion.div>
 
-      {/* Main layout: content left + images right on desktop; stacked on mobile */}
-      <div className="flex flex-col lg:flex-row gap-10 items-center">
-        {/* Left: niches grid */}
-        <div className="w-full lg:w-3/5 order-2 lg:order-1">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-            {niches.map((n, i) => (
-              <motion.div
-                key={i}
-                className="flex items-center gap-3 rounded-2xl bg-white/10 backdrop-blur-sm p-4 border border-white/10"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-                  <n.icon className="h-5 w-5 text-primary" />
+      {/* Alternating rows */}
+      <div className="space-y-12 md:space-y-16">
+        {nicheGroups.map((group, groupIdx) => {
+          const isImageLeft = group.imagePosition === "left";
+          return (
+            <motion.div
+              key={groupIdx}
+              className={`flex flex-col ${isImageLeft ? "md:flex-row" : "md:flex-row-reverse"} items-center gap-6 md:gap-10`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: groupIdx * 0.1 }}
+            >
+              {/* Model image */}
+              <div className="w-48 sm:w-56 md:w-64 lg:w-72 shrink-0 relative">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-primary/30 via-primary/10 to-transparent" />
+                <img
+                  src={group.image}
+                  alt={group.alt}
+                  className="w-full drop-shadow-2xl relative z-10"
+                />
+              </div>
+
+              {/* Niche cards */}
+              <div className="flex-1 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {group.niches.map((n, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-2xl bg-white/10 backdrop-blur-sm p-4 border border-white/10 hover:bg-white/15 transition-colors"
+                    >
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+                        <n.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <span className="text-base font-bold text-white">{n.label}</span>
+                    </div>
+                  ))}
                 </div>
-                <span className="text-sm font-bold text-white">{n.label}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            className="mt-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/20 px-5 py-3 text-sm font-bold text-primary">
-              <Settings className="h-5 w-5" />
-              ¿Tu nicho no está en la lista? Lo personalizamos para ti.
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right: model images */}
-        <motion.div
-          className="w-full lg:w-2/5 order-1 lg:order-2 flex justify-center gap-4"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="relative w-44 sm:w-52 lg:w-56">
-            <img
-              src={nicheBarber}
-              alt="Barbero profesional usando TODDO AI"
-              className="w-full rounded-3xl shadow-2xl object-cover aspect-[3/4]"
-            />
-          </div>
-          <div className="relative w-44 sm:w-52 lg:w-56 mt-8">
-            <img
-              src={nicheBeauty}
-              alt="Estilista profesional usando TODDO AI"
-              className="w-full rounded-3xl shadow-2xl object-cover aspect-[3/4]"
-            />
-          </div>
-        </motion.div>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
+
+      {/* Custom niche CTA */}
+      <motion.div
+        className="mt-10 text-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/20 px-5 py-3 text-sm font-bold text-primary">
+          <Settings className="h-5 w-5" />
+          ¿Tu nicho no está en la lista? Lo personalizamos para ti.
+        </div>
+      </motion.div>
     </div>
   </section>
 );

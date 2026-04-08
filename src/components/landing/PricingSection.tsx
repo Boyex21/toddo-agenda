@@ -5,7 +5,7 @@ import UrgencyCounter from "./UrgencyCounter";
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const PricingSection = () => (
-  <section className="py-16 md:py-24 bg-background" id="precios">
+  <section className="py-16 md:py-24 bg-foreground" id="precios">
     <div className="container mx-auto">
       <motion.div
         className="text-center"
