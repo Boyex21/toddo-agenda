@@ -27,17 +27,17 @@ const PricingSection = () => (
 
       {/* Installation */}
       <motion.div
-        className="mt-10 mx-auto max-w-md rounded-2xl border-2 border-primary bg-card p-6 text-center shadow-md"
+        className="mt-10 mx-auto max-w-md rounded-2xl border-2 border-primary bg-white/10 p-6 text-center shadow-md"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Instalación única</p>
+        <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Instalación única</p>
         <div className="mt-2 flex items-center justify-center gap-3">
-          <span className="text-xl text-muted-foreground line-through">$400</span>
+          <span className="text-xl text-white/50 line-through">$400</span>
           <span className="text-4xl font-extrabold text-primary">$80</span>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">80% de descuento por lanzamiento</p>
+        <p className="mt-1 text-sm text-white/60">80% de descuento por lanzamiento</p>
       </motion.div>
 
       {/* Plans */}
