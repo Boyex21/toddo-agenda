@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { MessageCircle, Zap } from "lucide-react";
 import phoneMockup from "@/assets/phone-mockup.png";
 import calendarIcon from "@/assets/calendar-icon.png";
+import toddoLogo from "@/assets/toddo-logo.svg";
 import UrgencyCounter from "./UrgencyCounter";
 
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
