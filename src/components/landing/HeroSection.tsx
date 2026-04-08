@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { MessageCircle, Zap } from "lucide-react";
 import phoneMockup from "@/assets/phone-mockup.png";
 import calendarIcon from "@/assets/calendar-icon.png";
+import toddoLogo from "@/assets/toddo-logo.svg";
 import UrgencyCounter from "./UrgencyCounter";
 
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
@@ -17,40 +18,38 @@ const HeroSection = () => (
         transition={{ duration: 0.5 }}
       >
         {/* Brand */}
-        {/* Mobile: icon on top, stacked */}
+        {/* Mobile: logo centered, then calendar icon + tagline */}
         <div className="mx-auto mb-6 flex flex-col items-center md:hidden">
           <img
-            src={calendarIcon}
-            alt="TODDO AI ícono"
-            className="h-20 w-20 drop-shadow-lg"
+            src={toddoLogo}
+            alt="TODDO AI logo"
+            className="h-14 drop-shadow-lg"
           />
-          <div className="mt-3 flex flex-col items-center leading-none">
-            <span className="text-4xl font-extrabold tracking-tight text-foreground">
-              TODDO{" "}
-              <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                AI
-              </span>
-            </span>
-            <span className="mt-1 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+          <div className="mt-3 flex items-center gap-2">
+            <img
+              src={calendarIcon}
+              alt="Ícono de agenda"
+              className="h-8 w-8"
+            />
+            <span className="text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
               Agenda con inteligencia artificial
             </span>
           </div>
         </div>
-        {/* Desktop: icon beside name */}
+        {/* Desktop: logo + calendar icon + tagline inline */}
         <div className="hidden md:flex items-center gap-4 mb-6">
           <img
-            src={calendarIcon}
-            alt="TODDO AI ícono"
-            className="h-16 w-16 drop-shadow-lg"
+            src={toddoLogo}
+            alt="TODDO AI logo"
+            className="h-16 drop-shadow-lg"
           />
-          <div className="flex flex-col leading-none">
-            <span className="text-5xl font-extrabold tracking-tight text-foreground">
-              TODDO{" "}
-              <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                AI
-              </span>
-            </span>
-            <span className="mt-1 text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+          <div className="flex items-center gap-2 border-l-2 border-muted-foreground/30 pl-4">
+            <img
+              src={calendarIcon}
+              alt="Ícono de agenda"
+              className="h-10 w-10"
+            />
+            <span className="text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
               Agenda con inteligencia artificial
             </span>
           </div>
