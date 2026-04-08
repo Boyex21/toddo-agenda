@@ -22,7 +22,6 @@ const nicheGroups = [
     niches: [
       { icon: SmilePlus, label: "Odontologías" },
       { icon: UtensilsCrossed, label: "Restaurantes" },
-      { icon: Briefcase, label: "Profesionales" },
     ],
   },
   {
@@ -32,7 +31,6 @@ const nicheGroups = [
     niches: [
       { icon: Truck, label: "Delivery" },
       { icon: DoorOpen, label: "Puerta a Puerta" },
-      { icon: MapPin, label: "Rastreo GPS" },
     ],
   },
   {
@@ -44,6 +42,11 @@ const nicheGroups = [
       { icon: Wrench, label: "Mecánicas" },
     ],
   },
+];
+
+const extraNiches = [
+  { icon: Briefcase, label: "Profesionales" },
+  { icon: MapPin, label: "Rastreo GPS" },
 ];
 
 const NichesSection = () => (
@@ -89,18 +92,18 @@ const NichesSection = () => (
                 />
               </div>
 
-              {/* Niche cards */}
+              {/* Niche cards — stacked vertically, max 2 */}
               <div className="flex-1 min-w-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="flex flex-col gap-3">
                   {group.niches.map((n, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 rounded-2xl bg-white/10 backdrop-blur-sm p-3 md:p-4 border border-white/10 hover:bg-white/15 transition-colors"
+                      className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 md:p-5 border border-white/10 hover:bg-white/15 transition-colors"
                     >
-                      <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-                        <n.icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+                      <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+                        <n.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
                       </div>
-                      <span className="text-sm md:text-base font-bold text-white">{n.label}</span>
+                      <span className="text-base md:text-lg lg:text-xl font-bold text-white">{n.label}</span>
                     </div>
                   ))}
                 </div>
@@ -109,6 +112,29 @@ const NichesSection = () => (
           );
         })}
       </div>
+
+      {/* Extra niches without model */}
+      <motion.div
+        className="mt-10 md:mt-16 flex justify-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+      >
+        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+          {extraNiches.map((n, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 md:p-5 border border-white/10 hover:bg-white/15 transition-colors flex-1"
+            >
+              <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+                <n.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
+              </div>
+              <span className="text-base md:text-lg lg:text-xl font-bold text-white">{n.label}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
 
       {/* Custom niche CTA */}
       <motion.div
