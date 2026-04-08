@@ -39,10 +39,10 @@ const FaqSection = () => (
       <Accordion type="single" collapsible className="mt-10">
         {faqs.map((f, i) => (
           <AccordionItem key={i} value={`faq-${i}`}>
-            <AccordionTrigger className="text-left text-lg font-semibold text-foreground">
+            <AccordionTrigger className="text-left text-lg font-semibold text-white">
               {f.q}
             </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+            <AccordionContent className="text-white/70 text-base leading-relaxed">
               {f.a}
             </AccordionContent>
           </AccordionItem>
