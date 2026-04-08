@@ -25,10 +25,10 @@ const faqs = [
 ];
 
 const FaqSection = () => (
-  <section className="py-16 md:py-24 bg-background" id="faq">
+  <section className="py-16 md:py-24 bg-foreground" id="faq">
     <div className="container mx-auto max-w-2xl">
       <motion.h2
-        className="text-section md:text-section-lg text-center text-foreground"
+        className="text-section md:text-section-lg text-center text-white"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -39,10 +39,10 @@ const FaqSection = () => (
       <Accordion type="single" collapsible className="mt-10">
         {faqs.map((f, i) => (
           <AccordionItem key={i} value={`faq-${i}`}>
-            <AccordionTrigger className="text-left text-lg font-semibold text-foreground">
+            <AccordionTrigger className="text-left text-lg font-semibold text-white">
               {f.q}
             </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+            <AccordionContent className="text-white/70 text-base leading-relaxed">
               {f.a}
             </AccordionContent>
           </AccordionItem>

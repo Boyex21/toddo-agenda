@@ -5,7 +5,7 @@ import UrgencyCounter from "./UrgencyCounter";
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const PricingSection = () => (
-  <section className="py-16 md:py-24 bg-background" id="precios">
+  <section className="py-16 md:py-24 bg-foreground" id="precios">
     <div className="container mx-auto">
       <motion.div
         className="text-center"
@@ -13,10 +13,10 @@ const PricingSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="inline-block rounded-full bg-highlight/10 px-4 py-1 text-sm font-semibold text-highlight">
+        <span className="inline-block rounded-full bg-highlight/20 px-4 py-1 text-sm font-semibold text-highlight">
           Oferta de lanzamiento
         </span>
-        <h2 className="mt-3 text-section md:text-section-lg text-foreground">
+        <h2 className="mt-3 text-section md:text-section-lg text-white">
           Precios que se pagan solos
         </h2>
       </motion.div>
@@ -27,31 +27,31 @@ const PricingSection = () => (
 
       {/* Installation */}
       <motion.div
-        className="mt-10 mx-auto max-w-md rounded-2xl border-2 border-primary bg-card p-6 text-center shadow-md"
+        className="mt-10 mx-auto max-w-md rounded-2xl border-2 border-primary bg-white/10 p-6 text-center shadow-md"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Instalación única</p>
+        <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Instalación única</p>
         <div className="mt-2 flex items-center justify-center gap-3">
-          <span className="text-xl text-muted-foreground line-through">$400</span>
+          <span className="text-xl text-white/50 line-through">$400</span>
           <span className="text-4xl font-extrabold text-primary">$80</span>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">80% de descuento por lanzamiento</p>
+        <p className="mt-1 text-sm text-white/60">80% de descuento por lanzamiento</p>
       </motion.div>
 
       {/* Plans */}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
         {/* Plan 1 */}
         <motion.div
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="rounded-2xl border border-white/10 bg-white/10 p-6 shadow-sm"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Plan Esencial</p>
-          <p className="mt-2 text-4xl font-extrabold text-foreground">$25<span className="text-lg font-medium text-muted-foreground">/mes</span></p>
-          <ul className="mt-6 space-y-3 text-foreground">
+          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Plan Esencial</p>
+          <p className="mt-2 text-4xl font-extrabold text-white">$25<span className="text-lg font-medium text-white/60">/mes</span></p>
+          <ul className="mt-6 space-y-3 text-white">
             {["Empleado IA 24/7", "Agenda automática", "Alertas de nuevas citas"].map((f) => (
               <li key={f} className="flex items-start gap-2">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
@@ -71,7 +71,7 @@ const PricingSection = () => (
 
         {/* Plan 2 */}
         <motion.div
-          className="relative rounded-2xl border-2 border-primary bg-card p-6 shadow-lg"
+          className="relative rounded-2xl border-2 border-primary bg-white/10 p-6 shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -80,9 +80,9 @@ const PricingSection = () => (
           <span className="absolute -top-3 right-4 rounded-full bg-primary px-3 py-0.5 text-xs font-bold text-primary-foreground">
             Más popular
           </span>
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Plan Completo</p>
-          <p className="mt-2 text-4xl font-extrabold text-foreground">$50<span className="text-lg font-medium text-muted-foreground">/mes</span></p>
-          <ul className="mt-6 space-y-3 text-foreground">
+          <p className="text-sm font-semibold text-white/70 uppercase tracking-wide">Plan Completo</p>
+          <p className="mt-2 text-4xl font-extrabold text-white">$50<span className="text-lg font-medium text-white/60">/mes</span></p>
+          <ul className="mt-6 space-y-3 text-white">
             {[
               "Todo del Plan Esencial",
               "Recordatorios automáticos",
@@ -106,7 +106,7 @@ const PricingSection = () => (
           </a>
         </motion.div>
       </div>
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+      <p className="mt-6 text-center text-sm text-white/60">
         🎁 Solicita tu demostración de 60 días GRATIS · Sin compromiso · Cancela cuando quieras
       </p>
     </div>
