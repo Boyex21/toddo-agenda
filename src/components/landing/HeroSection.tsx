@@ -18,32 +18,30 @@ const HeroSection = () => (
         transition={{ duration: 0.5 }}
       >
         {/* Brand */}
-        {/* Mobile: logo centered, then calendar icon + tagline */}
+        {/* Mobile: logo wide, then icon below, then tagline below */}
         <div className="mx-auto mb-6 flex flex-col items-center md:hidden">
           <img
             src={toddoLogo}
             alt="TODDO AI logo"
-            className="h-14 drop-shadow-lg"
+            className="w-[80%] drop-shadow-lg"
           />
-          <div className="mt-3 flex items-center gap-2">
-            <img
-              src={calendarIcon}
-              alt="Ícono de agenda"
-              className="h-8 w-8"
-            />
-            <span className="text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-              Agenda con inteligencia artificial
-            </span>
-          </div>
+          <img
+            src={calendarIcon}
+            alt="Ícono de agenda"
+            className="mt-4 h-10 w-10"
+          />
+          <span className="mt-2 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
+            Agenda con inteligencia artificial
+          </span>
         </div>
-        {/* Desktop: logo + calendar icon + tagline inline */}
-        <div className="hidden md:flex items-center gap-4 mb-6">
+        {/* Desktop: logo on top, then icon + tagline below */}
+        <div className="hidden md:flex flex-col items-start gap-3 mb-6">
           <img
             src={toddoLogo}
             alt="TODDO AI logo"
             className="h-16 drop-shadow-lg"
           />
-          <div className="flex items-center gap-2 border-l-2 border-muted-foreground/30 pl-4">
+          <div className="flex items-center gap-2">
             <img
               src={calendarIcon}
               alt="Ícono de agenda"
