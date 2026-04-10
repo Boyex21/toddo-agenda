@@ -20,27 +20,31 @@ const HeroSection = () => (
         {/* Brand */}
         {/* Mobile: logo wide, then icon below, then tagline below */}
         <div className="mx-auto mb-6 flex flex-col items-center md:hidden">
-          <img
-            src={toddoLogo}
-            alt="TODDO AI logo"
-            className="w-[80%] drop-shadow-lg"
-          />
+          <div className="w-[85%] overflow-hidden" style={{ aspectRatio: '810/340' }}>
+            <img
+              src={toddoLogo}
+              alt="TODDO AI logo"
+              className="w-full scale-[1.7] origin-center translate-y-[5%] drop-shadow-lg"
+            />
+          </div>
           <img
             src={calendarIcon}
             alt="Ícono de agenda"
-            className="mt-4 h-10 w-10"
+            className="mt-3 h-10 w-10"
           />
           <span className="mt-2 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
             Agenda con inteligencia artificial
           </span>
         </div>
-        {/* Desktop: logo on top, then icon + tagline below */}
+        {/* Desktop: logo large on top, then icon + tagline below */}
         <div className="hidden md:flex flex-col items-start gap-3 mb-6">
-          <img
-            src={toddoLogo}
-            alt="TODDO AI logo"
-            className="h-16 drop-shadow-lg"
-          />
+          <div className="overflow-hidden h-28 lg:h-36" style={{ aspectRatio: '810/340' }}>
+            <img
+              src={toddoLogo}
+              alt="TODDO AI logo"
+              className="h-full scale-[1.7] origin-center translate-y-[5%] drop-shadow-lg"
+            />
+          </div>
           <div className="flex items-center gap-2">
             <img
               src={calendarIcon}
