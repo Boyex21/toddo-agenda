@@ -23,23 +23,23 @@ const HeroSection = () => (
           <img
             src={toddoLogo}
             alt="TODDO AI logo"
-            className="w-[80%] drop-shadow-lg"
+            className="w-[85%] drop-shadow-lg"
           />
           <img
             src={calendarIcon}
             alt="Ícono de agenda"
-            className="mt-4 h-10 w-10"
+            className="mt-3 h-10 w-10"
           />
           <span className="mt-2 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
             Agenda con inteligencia artificial
           </span>
         </div>
-        {/* Desktop: logo on top, then icon + tagline below */}
+        {/* Desktop: logo large on top, then icon + tagline below */}
         <div className="hidden md:flex flex-col items-start gap-3 mb-6">
           <img
             src={toddoLogo}
             alt="TODDO AI logo"
-            className="h-16 drop-shadow-lg"
+            className="h-28 lg:h-36 drop-shadow-lg"
           />
           <div className="flex items-center gap-2">
             <img
