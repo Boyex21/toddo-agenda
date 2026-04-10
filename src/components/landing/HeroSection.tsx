@@ -1,15 +1,12 @@
 import { motion } from "framer-motion";
-import { MessageCircle, Zap } from "lucide-react";
-import phoneMockup from "@/assets/phone-mockup.png";
-import calendarIcon from "@/assets/calendar-icon.png";
-import toddoLogo from "@/assets/toddo-logo.svg";
+import { MessageCircle, Zap, Play } from "lucide-react";
 import UrgencyCounter from "./UrgencyCounter";
 
 const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
 
 const HeroSection = () => (
   <section className="relative overflow-hidden bg-surface-warm pt-6 pb-16 md:pt-12 md:pb-24">
-    <div className="container mx-auto flex flex-col items-center gap-8 md:flex-row md:gap-12">
+    <div className="container mx-auto flex flex-col items-center gap-10 md:flex-row md:gap-14">
       {/* Copy */}
       <motion.div
         className="flex-1 text-center md:text-left"
@@ -17,42 +14,6 @@ const HeroSection = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Brand */}
-        {/* Mobile: logo wide, then icon below, then tagline below */}
-        <div className="mx-auto mb-6 flex flex-col items-center md:hidden">
-          <img
-            src={toddoLogo}
-            alt="TODDO AI logo"
-            className="w-[85%] drop-shadow-lg"
-          />
-          <img
-            src={calendarIcon}
-            alt="Ícono de agenda"
-            className="mt-3 h-10 w-10"
-          />
-          <span className="mt-2 text-xs font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-            Agenda con inteligencia artificial
-          </span>
-        </div>
-        {/* Desktop: logo large on top, then icon + tagline below */}
-        <div className="hidden md:flex flex-col items-start gap-3 mb-6">
-          <img
-            src={toddoLogo}
-            alt="TODDO AI logo"
-            className="h-28 lg:h-36 drop-shadow-lg"
-          />
-          <div className="flex items-center gap-2">
-            <img
-              src={calendarIcon}
-              alt="Ícono de agenda"
-              className="h-10 w-10"
-            />
-            <span className="text-sm font-semibold tracking-[0.25em] uppercase text-muted-foreground">
-              Agenda con inteligencia artificial
-            </span>
-          </div>
-        </div>
-
         <span className="mb-3 inline-block rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground">
           🔥 Cupos limitados — 60 días GRATIS
         </span>
@@ -63,7 +24,8 @@ const HeroSection = () => (
         </h1>
 
         <p className="mt-4 text-body-lg text-muted-foreground max-w-lg mx-auto md:mx-0">
-          Un empleado con inteligencia artificial que responde, agenda, recuerda y da seguimiento a tus clientes <strong>las 24 horas, los 7 días</strong>. Sin contratar personal extra.
+          Un empleado con inteligencia artificial que responde, agenda, recuerda y da seguimiento a tus clientes{" "}
+          <strong>las 24 horas, los 7 días</strong>. Sin contratar personal extra.
         </p>
 
         <div className="mt-6">
@@ -96,22 +58,42 @@ const HeroSection = () => (
         </p>
       </motion.div>
 
-      {/* Phone mockup */}
+      {/* YouTube Video — hero spotlight */}
       <motion.div
-         className="flex-shrink-0 w-40 md:w-56"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="w-full md:flex-1 md:max-w-xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        style={{ transform: "rotate(-8deg)" }}
       >
-        <div className="relative rounded-[2rem] border-[3px] border-foreground/70 bg-foreground/80 p-1.5 shadow-2xl animate-float">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-16 bg-foreground/70 rounded-b-xl z-10" />
-          <img
-            src={phoneMockup}
-            alt="Demostración del chat automatizado por WhatsApp"
-            className="w-full rounded-[2rem]"
-            loading="eager"
-          />
+        <div className="relative group">
+          {/* Glow effect behind the video */}
+          <div className="absolute -inset-2 md:-inset-3 rounded-3xl bg-gradient-to-br from-primary/30 via-wa-green/20 to-primary/10 blur-xl opacity-70 group-hover:opacity-100 transition-opacity" />
+
+          {/* Video container */}
+          <div className="relative overflow-hidden rounded-2xl shadow-2xl border-2 border-primary/20 bg-foreground/5">
+            {/* Label badge */}
+            <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground shadow-md">
+              <Play className="h-3 w-3 fill-current" />
+              Mira cómo funciona
+            </div>
+
+            {/* 16:9 responsive iframe */}
+            <div className="relative" style={{ paddingBottom: "56.25%" }}>
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/gVSflIU6G8o?rel=0&modestbranding=1"
+                title="Demo completa TODDO AI"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="eager"
+              />
+            </div>
+          </div>
+
+          {/* Caption below video */}
+          <p className="mt-3 text-center text-sm font-medium text-muted-foreground">
+            ▶️ Demo de 4 min — Mira cómo tu negocio puede vender en automático
+          </p>
         </div>
       </motion.div>
     </div>
