@@ -1,3 +1,6 @@
+import { MessageCircle } from "lucide-react";
+import { useLeadForm } from "@/components/landing/LeadFormContext";
+
 import HeroSection from "@/components/landing/HeroSection";
 import DeviceCompatibilitySection from "@/components/landing/DeviceCompatibilitySection";
 import PainPointsSection from "@/components/landing/PainPointsSection";
@@ -12,39 +15,38 @@ import AddOnsSection from "@/components/landing/AddOnsSection";
 import CtaBanner from "@/components/landing/CtaBanner";
 import FaqSection from "@/components/landing/FaqSection";
 import Footer from "@/components/landing/Footer";
-import { MessageCircle } from "lucide-react";
 
-const WA_LINK = "https://wa.me/593967383001?text=Quiero%20mi%20prueba%20gratis%20de%2060%20días";
+const Index = () => {
+  const { openForm } = useLeadForm();
 
-const Index = () => (
-  <>
-    <HeroSection />
-    <DeviceCompatibilitySection />
-    <PainPointsSection />
-    <SolutionSection />
-    <NichesSection />
-    <BenefitsSection />
-    <DemoSection />
-    <YouTubeSection />
-    <CtaBanner headline="¿Listo para vender en automático?" />
-    <SocialProofSection />
-    <PricingSection />
-    <AddOnsSection />
-    <CtaBanner headline="Quiero automatizar mi WhatsApp ahora" />
-    <FaqSection />
-    <Footer />
+  return (
+    <>
+      <HeroSection />
+      <DeviceCompatibilitySection />
+      <PainPointsSection />
+      <SolutionSection />
+      <NichesSection />
+      <BenefitsSection />
+      <DemoSection />
+      <YouTubeSection />
+      <CtaBanner headline="¿Listo para vender en automático?" />
+      <SocialProofSection />
+      <PricingSection />
+      <AddOnsSection />
+      <CtaBanner headline="Quiero automatizar mi WhatsApp ahora" />
+      <FaqSection />
+      <Footer />
 
-    {/* Floating WhatsApp button */}
-    <a
-      href={WA_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Contactar por WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg transition-transform hover:scale-110 active:scale-95 animate-pulse-soft"
-    >
-      <MessageCircle className="h-7 w-7 text-primary-foreground" />
-    </a>
-  </>
-);
+      {/* Floating WhatsApp button */}
+      <button
+        onClick={openForm}
+        aria-label="Contactar por WhatsApp"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg transition-transform hover:scale-110 active:scale-95 animate-pulse-soft"
+      >
+        <MessageCircle className="h-7 w-7 text-primary-foreground" />
+      </button>
+    </>
+  );
+};
 
 export default Index;
