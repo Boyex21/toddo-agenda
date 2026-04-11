@@ -49,108 +49,150 @@ const extraNiches = [
   { icon: MapPin, label: "Rastreo GPS" },
 ];
 
-const NichesSection = () => (
-  <section className="py-16 md:py-24 bg-foreground text-primary-foreground overflow-hidden">
-    <div className="container mx-auto">
-      {/* Header */}
-      <motion.div
-        className="text-center mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <span className="inline-block rounded-full bg-primary/20 px-4 py-1 text-sm font-semibold text-primary">
-          Para todo tipo de negocio
-        </span>
-        <h2 className="mt-3 text-section md:text-section-lg text-white">
-          Tenemos empleados IA para <span className="text-primary">tu nicho</span>
-        </h2>
-        <p className="mt-3 text-body-lg text-white/70 max-w-2xl mx-auto">
-          No importa tu industria, nuestro agente se adapta a las necesidades de tu negocio.
-        </p>
-      </motion.div>
-
-      {/* Alternating rows */}
-      <div className="space-y-10 md:space-y-16">
-        {nicheGroups.map((group, groupIdx) => {
-          const isImageLeft = group.imagePosition === "left";
-          return (
-            <motion.div
-              key={groupIdx}
-              className={`flex items-center gap-4 md:gap-10 ${isImageLeft ? "flex-row md:flex-row" : "flex-row-reverse md:flex-row-reverse"}`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: groupIdx * 0.1 }}
-            >
-              {/* Model image — always to one side */}
-              <div className="w-28 sm:w-36 md:w-52 lg:w-64 shrink-0">
-                <img
-                  src={group.image}
-                  alt={group.alt}
-                  className="w-full drop-shadow-2xl"
-                />
-              </div>
-
-              {/* Niche cards — stacked vertically, max 2 */}
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col gap-3">
-                  {group.niches.map((n, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 md:p-5 border border-white/10 hover:bg-white/15 transition-colors"
-                    >
-                      <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-                        <n.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
-                      </div>
-                      <span className="text-base md:text-lg lg:text-xl font-bold text-white">{n.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Extra niches without model */}
-      <motion.div
-        className="mt-10 md:mt-16 flex justify-center"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
-          {extraNiches.map((n, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 md:p-5 border border-white/10 hover:bg-white/15 transition-colors flex-1"
-            >
-              <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-                <n.icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
-              </div>
-              <span className="text-base md:text-lg lg:text-xl font-bold text-white">{n.label}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Custom niche CTA */}
-      <motion.div
-        className="mt-10 text-center"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/20 px-5 py-3 text-sm font-bold text-primary">
-          <Settings className="h-5 w-5" />
-          ¿Tu nicho no está en la lista? Lo personalizamos para ti.
-        </div>
-      </motion.div>
+/* Niche card shared component */
+const NicheCard = ({ icon: Icon, label }: { icon: React.ElementType; label: string }) => (
+  <div className="flex items-center gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-4 lg:p-5 border border-white/10 hover:bg-white/15 transition-colors">
+    <div className="flex h-12 w-12 lg:h-14 lg:w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+      <Icon className="h-6 w-6 lg:h-7 lg:w-7 text-primary" />
     </div>
-  </section>
+    <span className="text-base lg:text-xl font-bold text-white">{label}</span>
+  </div>
 );
+
+const NichesSection = () => {
+  // Pair groups for desktop: (0,1) and (2,3)
+  const pairedGroups = [];
+  for (let i = 0; i < nicheGroups.length; i += 2) {
+    pairedGroups.push([nicheGroups[i], nicheGroups[i + 1]]);
+  }
+
+  return (
+    <section className="py-16 md:py-24 bg-foreground text-primary-foreground overflow-hidden">
+      <div className="container mx-auto">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <span className="inline-block rounded-full bg-primary/20 px-4 py-1 text-sm font-semibold text-primary">
+            Para todo tipo de negocio
+          </span>
+          <h2 className="mt-3 text-section md:text-section-lg text-white">
+            Tenemos empleados IA para <span className="text-primary">tu nicho</span>
+          </h2>
+          <p className="mt-3 text-body-lg text-white/70 max-w-2xl mx-auto">
+            No importa tu industria, nuestro agente se adapta a las necesidades de tu negocio.
+          </p>
+        </motion.div>
+
+        {/* ===== MOBILE: alternating rows (unchanged) ===== */}
+        <div className="md:hidden space-y-10">
+          {nicheGroups.map((group, groupIdx) => {
+            const isImageLeft = group.imagePosition === "left";
+            return (
+              <motion.div
+                key={groupIdx}
+                className={`flex items-center gap-4 ${isImageLeft ? "flex-row" : "flex-row-reverse"}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: groupIdx * 0.1 }}
+              >
+                <div className="w-28 sm:w-36 shrink-0">
+                  <img src={group.image} alt={group.alt} className="w-full drop-shadow-2xl" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col gap-3">
+                    {group.niches.map((n, i) => (
+                      <NicheCard key={i} icon={n.icon} label={n.label} />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* ===== DESKTOP: paired rows — model | col1 | col2 | model ===== */}
+        <div className="hidden md:block space-y-16">
+          {pairedGroups.map((pair, pairIdx) => {
+            const [left, right] = pair;
+            return (
+              <motion.div
+                key={pairIdx}
+                className="flex items-center gap-6 lg:gap-10"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: pairIdx * 0.15 }}
+              >
+                {/* Left model */}
+                <div className="w-44 lg:w-56 xl:w-64 shrink-0">
+                  <img src={left.image} alt={left.alt} className="w-full drop-shadow-2xl" />
+                </div>
+
+                {/* Left niches column */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col gap-3">
+                    {left.niches.map((n, i) => (
+                      <NicheCard key={i} icon={n.icon} label={n.label} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right niches column */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col gap-3">
+                    {right.niches.map((n, i) => (
+                      <NicheCard key={i} icon={n.icon} label={n.label} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right model */}
+                <div className="w-44 lg:w-56 xl:w-64 shrink-0">
+                  <img src={right.image} alt={right.alt} className="w-full drop-shadow-2xl" />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Extra niches without model */}
+        <motion.div
+          className="mt-10 md:mt-16 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+            {extraNiches.map((n, i) => (
+              <div key={i} className="flex-1">
+                <NicheCard icon={n.icon} label={n.label} />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Custom niche CTA */}
+        <motion.div
+          className="mt-10 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/20 px-5 py-3 text-sm font-bold text-primary">
+            <Settings className="h-5 w-5" />
+            ¿Tu nicho no está en la lista? Lo personalizamos para ti.
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 export default NichesSection;
