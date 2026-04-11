@@ -77,9 +77,10 @@ const HeroSection = () => (
               Mira cómo funciona
             </div>
 
-            {/* 16:9 responsive iframe */}
-            <div className="relative" style={{ paddingBottom: "56.25%" }}>
+            {/* 9:16 vertical on mobile, 16:9 horizontal on desktop */}
+            <div className="relative" style={{ paddingBottom: "177.78%" }}>
               <iframe
+
                 className="absolute inset-0 h-full w-full"
                 src="https://www.youtube.com/embed/gVSflIU6G8o?rel=0&modestbranding=1"
                 title="Demo completa TODDO AI"
