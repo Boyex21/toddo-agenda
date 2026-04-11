@@ -78,7 +78,7 @@ const HeroSection = () => (
             </div>
 
             {/* 9:16 vertical on mobile, 16:9 horizontal on desktop */}
-            <div className="relative" style={{ paddingBottom: "177.78%" }}>
+            <div className="relative pb-[177.78%] md:pb-[56.25%]">
               <iframe
 
                 className="absolute inset-0 h-full w-full"
