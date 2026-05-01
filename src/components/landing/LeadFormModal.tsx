@@ -122,7 +122,7 @@ const LeadFormModal = () => {
             <div className="flex gap-2">
               <select
                 value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                onChange={(e) => { setCountryCode(e.target.value); setUserTouchedCountry(true); }}
                 className="h-10 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 {COUNTRY_CODES.map((c) => (
