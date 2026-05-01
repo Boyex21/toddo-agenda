@@ -40,12 +40,21 @@ const NICHES = [
 
 const LeadFormModal = () => {
   const { isOpen, closeForm } = useLeadForm();
+  const { phoneCode } = useCurrency();
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState("+593");
+  const [countryCode, setCountryCode] = useState(phoneCode || "+593");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [niche, setNiche] = useState("");
   const [otherNiche, setOtherNiche] = useState("");
+  const [userTouchedCountry, setUserTouchedCountry] = useState(false);
+
+  // Sync country code when geolocation/currency changes (until user manually picks)
+  useEffect(() => {
+    if (!userTouchedCountry && phoneCode) {
+      setCountryCode(phoneCode);
+    }
+  }, [phoneCode, userTouchedCountry]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
