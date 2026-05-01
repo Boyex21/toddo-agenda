@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLeadForm } from "./LeadFormContext";
+import { useCurrency } from "./CurrencyContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,12 +40,21 @@ const NICHES = [
 
 const LeadFormModal = () => {
   const { isOpen, closeForm } = useLeadForm();
+  const { phoneCode } = useCurrency();
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState("+593");
+  const [countryCode, setCountryCode] = useState(phoneCode || "+593");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [niche, setNiche] = useState("");
   const [otherNiche, setOtherNiche] = useState("");
+  const [userTouchedCountry, setUserTouchedCountry] = useState(false);
+
+  // Sync country code when geolocation/currency changes (until user manually picks)
+  useEffect(() => {
+    if (!userTouchedCountry && phoneCode) {
+      setCountryCode(phoneCode);
+    }
+  }, [phoneCode, userTouchedCountry]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,7 +122,7 @@ const LeadFormModal = () => {
             <div className="flex gap-2">
               <select
                 value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                onChange={(e) => { setCountryCode(e.target.value); setUserTouchedCountry(true); }}
                 className="h-10 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 {COUNTRY_CODES.map((c) => (

@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { MessageCircle, Zap, Play } from "lucide-react";
+import { MessageCircle, HelpCircle, Play } from "lucide-react";
 import UrgencyCounter from "./UrgencyCounter";
 import { useLeadForm } from "./LeadFormContext";
 
 const HeroSection = () => {
-  const { openForm } = useLeadForm();
+  const { openForm, openDoubtsChat } = useLeadForm();
 
   return (
     <section className="relative overflow-hidden bg-surface-warm pt-6 pb-16 md:pt-12 md:pb-24">
@@ -36,18 +36,18 @@ const HeroSection = () => {
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
             <button
-              onClick={openForm}
+              onClick={() => openForm("hero-primary")}
               className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-7 py-4 text-lg font-bold text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 animate-pulse-soft"
             >
               <MessageCircle className="h-5 w-5" />
               Probar gratis 60 días
             </button>
             <button
-              onClick={openForm}
+              onClick={() => openDoubtsChat("Hero principal")}
               className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-primary bg-background px-7 py-4 text-lg font-bold text-primary transition-colors hover:bg-accent"
             >
-              <Zap className="h-5 w-5" />
-              Hablar por WhatsApp
+              <HelpCircle className="h-5 w-5" />
+              Tengo dudas, hablar por WhatsApp
             </button>
           </div>
 

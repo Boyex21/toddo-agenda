@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, HelpCircle } from "lucide-react";
 import UrgencyCounter from "./UrgencyCounter";
 import { useLeadForm } from "./LeadFormContext";
 
 const CtaBanner = ({ headline = "¿Listo para vender en automático?" }: { headline?: string }) => {
-  const { openForm } = useLeadForm();
+  const { openForm, openDoubtsChat } = useLeadForm();
 
   return (
     <section className="py-14 md:py-20 bg-primary">
@@ -28,17 +28,18 @@ const CtaBanner = ({ headline = "¿Listo para vender en automático?" }: { headl
           transition={{ delay: 0.1 }}
         >
           <button
-            onClick={openForm}
+            onClick={() => openForm("cta-banner-primary")}
             className="inline-flex items-center justify-center gap-2 rounded-2xl bg-background px-8 py-4 text-lg font-bold text-primary shadow-lg transition-transform hover:scale-105 active:scale-95"
           >
             <MessageCircle className="h-5 w-5" />
             Quiero automatizar mi WhatsApp ahora
           </button>
           <button
-            onClick={openForm}
+            onClick={() => openDoubtsChat(headline)}
             className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-primary-foreground/30 px-8 py-4 text-lg font-bold text-primary-foreground transition-colors hover:bg-primary-foreground/10"
           >
-            Activar prueba gratis
+            <HelpCircle className="h-5 w-5" />
+            Tengo dudas, hablar por WhatsApp
           </button>
         </motion.div>
         <p className="mt-4 text-sm text-primary-foreground/80">
