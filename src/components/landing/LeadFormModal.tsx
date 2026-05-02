@@ -1,6 +1,20 @@
 import { useState, useEffect } from "react";
 import { useLeadForm } from "./LeadFormContext";
 import { useCurrency } from "./CurrencyContext";
+
+const LEAD_SUBMIT_WEBHOOK = "https://webhook.sesotec.com.ec/webhook/lead-submitted-toddo";
+
+const getUtm = () => {
+  if (typeof window === "undefined") return {};
+  const p = new URLSearchParams(window.location.search);
+  return {
+    utm_source: p.get("utm_source") || undefined,
+    utm_medium: p.get("utm_medium") || undefined,
+    utm_campaign: p.get("utm_campaign") || undefined,
+    utm_term: p.get("utm_term") || undefined,
+    utm_content: p.get("utm_content") || undefined,
+  };
+};
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
