@@ -36,6 +36,7 @@ const COUNTRY_CODES = [
   { code: "+502", country: "🇬🇹 Guatemala" },
   { code: "+1", country: "🇺🇸 EE.UU." },
   { code: "+34", country: "🇪🇸 España" },
+  { code: "+44", country: "🇬🇧 Reino Unido" },
 ];
 
 const NICHES = [
@@ -49,6 +50,10 @@ const NICHES = [
   "Mecánicas",
   "Profesionales",
   "Rastreo GPS",
+  "Spa y Relajación",
+  "Inmobiliarias",
+  "Agencias Turísticas",
+  "Recepcionistas de Hoteles",
   "Otro nicho",
 ];
 
