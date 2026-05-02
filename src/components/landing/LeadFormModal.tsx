@@ -54,7 +54,7 @@ const NICHES = [
 
 const LeadFormModal = () => {
   const { isOpen, closeForm } = useLeadForm();
-  const { phoneCode } = useCurrency();
+  const { phoneCode, currency, detectedCountry } = useCurrency();
   const [name, setName] = useState("");
   const [countryCode, setCountryCode] = useState(phoneCode || "+593");
   const [phone, setPhone] = useState("");
@@ -75,6 +75,32 @@ const LeadFormModal = () => {
 
     const selectedNiche = niche === "Otro nicho" ? otherNiche : niche;
     const fullPhone = `${countryCode}${phone}`;
+
+    // Fire-and-forget webhook to persist lead in DB (n8n -> Postgres)
+    try {
+      fetch(LEAD_SUBMIT_WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "lead_submitted",
+          name,
+          country_code: countryCode,
+          phone,
+          full_phone: fullPhone,
+          email,
+          niche: selectedNiche,
+          other_niche: niche === "Otro nicho" ? otherNiche : null,
+          currency,
+          detected_country: detectedCountry,
+          page_url: typeof window !== "undefined" ? window.location.href : "",
+          referrer: typeof document !== "undefined" ? document.referrer : "",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+          ...getUtm(),
+          timestamp: new Date().toISOString(),
+        }),
+      }).catch(() => {});
+    } catch {}
 
     const message =
       `🚀 *Solicitud de Demostración - TODDO AI*\n\n` +
