@@ -172,11 +172,9 @@ const NichesSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-4xl">
             {extraNiches.map((n, i) => (
-              <div key={i} className="flex-1">
-                <NicheCard icon={n.icon} label={n.label} />
-              </div>
+              <NicheCard key={i} icon={n.icon} label={n.label} />
             ))}
           </div>
         </motion.div>
