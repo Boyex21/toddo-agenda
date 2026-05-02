@@ -1,6 +1,20 @@
 import { useState, useEffect } from "react";
 import { useLeadForm } from "./LeadFormContext";
 import { useCurrency } from "./CurrencyContext";
+
+const LEAD_SUBMIT_WEBHOOK = "https://webhook.sesotec.com.ec/webhook/lead-submitted-toddo";
+
+const getUtm = () => {
+  if (typeof window === "undefined") return {};
+  const p = new URLSearchParams(window.location.search);
+  return {
+    utm_source: p.get("utm_source") || undefined,
+    utm_medium: p.get("utm_medium") || undefined,
+    utm_campaign: p.get("utm_campaign") || undefined,
+    utm_term: p.get("utm_term") || undefined,
+    utm_content: p.get("utm_content") || undefined,
+  };
+};
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,7 +54,7 @@ const NICHES = [
 
 const LeadFormModal = () => {
   const { isOpen, closeForm } = useLeadForm();
-  const { phoneCode } = useCurrency();
+  const { phoneCode, currency, detectedCountry } = useCurrency();
   const [name, setName] = useState("");
   const [countryCode, setCountryCode] = useState(phoneCode || "+593");
   const [phone, setPhone] = useState("");
@@ -61,6 +75,32 @@ const LeadFormModal = () => {
 
     const selectedNiche = niche === "Otro nicho" ? otherNiche : niche;
     const fullPhone = `${countryCode}${phone}`;
+
+    // Fire-and-forget webhook to persist lead in DB (n8n -> Postgres)
+    try {
+      fetch(LEAD_SUBMIT_WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "lead_submitted",
+          name,
+          country_code: countryCode,
+          phone,
+          full_phone: fullPhone,
+          email,
+          niche: selectedNiche,
+          other_niche: niche === "Otro nicho" ? otherNiche : null,
+          currency,
+          detected_country: detectedCountry,
+          page_url: typeof window !== "undefined" ? window.location.href : "",
+          referrer: typeof document !== "undefined" ? document.referrer : "",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+          ...getUtm(),
+          timestamp: new Date().toISOString(),
+        }),
+      }).catch(() => {});
+    } catch {}
 
     const message =
       `🚀 *Solicitud de Demostración - TODDO AI*\n\n` +
