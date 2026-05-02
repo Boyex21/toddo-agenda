@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Scissors, Sparkles, SmilePlus, UtensilsCrossed, Truck, DoorOpen, MapPin, Droplets, Wrench, Briefcase, Settings } from "lucide-react";
+import { Scissors, Sparkles, SmilePlus, UtensilsCrossed, Truck, DoorOpen, MapPin, Droplets, Wrench, Briefcase, Settings, Flower2, Building2, Plane, ConciergeBell } from "lucide-react";
 import nicheBeauty from "@/assets/niche-beauty.png";
 import nicheBarber from "@/assets/niche-barber.png";
 import nicheDelivery from "@/assets/niche-delivery.png";
@@ -47,6 +47,10 @@ const nicheGroups = [
 const extraNiches = [
   { icon: Briefcase, label: "Profesionales" },
   { icon: MapPin, label: "Rastreo GPS" },
+  { icon: Flower2, label: "Spa y Relajación" },
+  { icon: Building2, label: "Inmobiliarias" },
+  { icon: Plane, label: "Agencias Turísticas" },
+  { icon: ConciergeBell, label: "Recepcionistas de Hoteles" },
 ];
 
 /* Niche card shared component */
