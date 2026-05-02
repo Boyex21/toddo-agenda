@@ -7,6 +7,7 @@ import PainPointsSection from "@/components/landing/PainPointsSection";
 import SolutionSection from "@/components/landing/SolutionSection";
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import NichesSection from "@/components/landing/NichesSection";
+import NichesCarousel from "@/components/landing/NichesCarousel";
 import DemoSection from "@/components/landing/DemoSection";
 import YouTubeSection from "@/components/landing/YouTubeSection";
 import SocialProofSection from "@/components/landing/SocialProofSection";
@@ -26,6 +27,7 @@ const Index = () => {
       <PainPointsSection />
       <SolutionSection />
       <NichesSection />
+      <NichesCarousel />
       <BenefitsSection />
       <DemoSection />
       <YouTubeSection />

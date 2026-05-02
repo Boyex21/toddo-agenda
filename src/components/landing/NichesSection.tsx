@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Scissors, Sparkles, SmilePlus, UtensilsCrossed, Truck, DoorOpen, MapPin, Droplets, Wrench, Briefcase, Settings } from "lucide-react";
+import { Scissors, Sparkles, SmilePlus, UtensilsCrossed, Truck, DoorOpen, MapPin, Droplets, Wrench, Briefcase, Settings, Flower2, Building2, Plane, ConciergeBell } from "lucide-react";
 import nicheBeauty from "@/assets/niche-beauty.png";
 import nicheBarber from "@/assets/niche-barber.png";
 import nicheDelivery from "@/assets/niche-delivery.png";
@@ -47,6 +47,10 @@ const nicheGroups = [
 const extraNiches = [
   { icon: Briefcase, label: "Profesionales" },
   { icon: MapPin, label: "Rastreo GPS" },
+  { icon: Flower2, label: "Spa y Relajación" },
+  { icon: Building2, label: "Inmobiliarias" },
+  { icon: Plane, label: "Agencias Turísticas" },
+  { icon: ConciergeBell, label: "Recepcionistas de Hoteles" },
 ];
 
 /* Niche card shared component */
@@ -168,11 +172,9 @@ const NichesSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-4xl">
             {extraNiches.map((n, i) => (
-              <div key={i} className="flex-1">
-                <NicheCard icon={n.icon} label={n.label} />
-              </div>
+              <NicheCard key={i} icon={n.icon} label={n.label} />
             ))}
           </div>
         </motion.div>

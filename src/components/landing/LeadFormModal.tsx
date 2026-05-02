@@ -36,6 +36,7 @@ const COUNTRY_CODES = [
   { code: "+502", country: "🇬🇹 Guatemala" },
   { code: "+1", country: "🇺🇸 EE.UU." },
   { code: "+34", country: "🇪🇸 España" },
+  { code: "+44", country: "🇬🇧 Reino Unido" },
 ];
 
 const NICHES = [
@@ -49,6 +50,10 @@ const NICHES = [
   "Mecánicas",
   "Profesionales",
   "Rastreo GPS",
+  "Spa y Relajación",
+  "Inmobiliarias",
+  "Agencias Turísticas",
+  "Recepcionistas de Hoteles",
   "Otro nicho",
 ];
 
@@ -61,14 +66,10 @@ const LeadFormModal = () => {
   const [email, setEmail] = useState("");
   const [niche, setNiche] = useState("");
   const [otherNiche, setOtherNiche] = useState("");
-  const [userTouchedCountry, setUserTouchedCountry] = useState(false);
-
-  // Sync country code when geolocation/currency changes (until user manually picks)
+  // Always sync country code with selected currency (overrides on currency change)
   useEffect(() => {
-    if (!userTouchedCountry && phoneCode) {
-      setCountryCode(phoneCode);
-    }
-  }, [phoneCode, userTouchedCountry]);
+    if (phoneCode) setCountryCode(phoneCode);
+  }, [phoneCode, currency]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,7 +163,7 @@ const LeadFormModal = () => {
             <div className="flex gap-2">
               <select
                 value={countryCode}
-                onChange={(e) => { setCountryCode(e.target.value); setUserTouchedCountry(true); }}
+                onChange={(e) => setCountryCode(e.target.value)}
                 className="h-10 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 {COUNTRY_CODES.map((c) => (

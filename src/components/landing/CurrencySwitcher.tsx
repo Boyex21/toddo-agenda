@@ -14,23 +14,23 @@ const CurrencySwitcher = ({ variant = "light" }: Props) => {
       : "bg-background border-border text-foreground";
 
   return (
-    <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm ${base}`}>
-      <Globe className="h-4 w-4 opacity-70" />
-      <span className="opacity-70">Moneda:</span>
+    <div className={`inline-flex flex-wrap items-center gap-1.5 rounded-2xl border px-3 py-2 text-sm ${base}`}>
+      <Globe className="h-4 w-4 opacity-70 mr-1" />
+      <span className="opacity-70 mr-1">Moneda:</span>
       {(Object.keys(CURRENCIES) as CurrencyCode[]).map((code) => {
         const active = currency === code;
         return (
           <button
             key={code}
             onClick={() => setCurrency(code)}
-            className={`rounded-full px-2.5 py-0.5 text-xs font-bold transition-colors ${
+            className={`rounded-full px-2.5 py-1 text-xs font-bold transition-colors ${
               active
                 ? "bg-primary text-primary-foreground"
                 : "opacity-60 hover:opacity-100"
             }`}
             aria-pressed={active}
           >
-            {CURRENCIES[code].country.split(" ")[0]} {code}
+            {CURRENCIES[code].flag} {code}
           </button>
         );
       })}

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 
-export type CurrencyCode = "USD" | "COP";
+export type CurrencyCode = "USD" | "COP" | "PEN" | "MXN" | "ARS" | "CLP" | "EUR" | "GBP";
 
 interface CurrencyInfo {
   code: CurrencyCode;
@@ -10,11 +10,19 @@ interface CurrencyInfo {
   phoneCode: string;
   /** Country flag/name for UI */
   country: string;
+  /** Flag emoji */
+  flag: string;
 }
 
 export const CURRENCIES: Record<CurrencyCode, CurrencyInfo> = {
-  USD: { code: "USD", symbol: "$", label: "USD", phoneCode: "+593", country: "🇪🇨 Ecuador" },
-  COP: { code: "COP", symbol: "$", label: "COP", phoneCode: "+57", country: "🇨🇴 Colombia" },
+  USD: { code: "USD", symbol: "$",  label: "USD", phoneCode: "+593", country: "Ecuador",   flag: "🇪🇨" },
+  COP: { code: "COP", symbol: "$",  label: "COP", phoneCode: "+57",  country: "Colombia",  flag: "🇨🇴" },
+  PEN: { code: "PEN", symbol: "S/", label: "PEN", phoneCode: "+51",  country: "Perú",      flag: "🇵🇪" },
+  MXN: { code: "MXN", symbol: "$",  label: "MXN", phoneCode: "+52",  country: "México",    flag: "🇲🇽" },
+  ARS: { code: "ARS", symbol: "$",  label: "ARS", phoneCode: "+54",  country: "Argentina", flag: "🇦🇷" },
+  CLP: { code: "CLP", symbol: "$",  label: "CLP", phoneCode: "+56",  country: "Chile",     flag: "🇨🇱" },
+  EUR: { code: "EUR", symbol: "€",  label: "EUR", phoneCode: "+34",  country: "España",    flag: "🇪🇺" },
+  GBP: { code: "GBP", symbol: "£",  label: "GBP", phoneCode: "+44",  country: "Reino Unido", flag: "🇬🇧" },
 };
 
 interface CurrencyContextType {
@@ -25,7 +33,7 @@ interface CurrencyContextType {
   loadingRate: boolean;
   /** Detected ISO country (e.g. "EC", "CO", "MX"). Null while loading. */
   detectedCountry: string | null;
-  /** Suggested phone code based on detected country, falls back to currency phoneCode */
+  /** Suggested phone code based on selected currency (or detected country). */
   phoneCode: string;
   /** Format a USD price into the selected currency string */
   format: (usd: number) => string;
@@ -43,14 +51,15 @@ const CurrencyContext = createContext<CurrencyContextType>({
 
 export const useCurrency = () => useContext(CurrencyContext);
 
-// Map country ISO -> phone code (subset, matches LeadFormModal options)
-const COUNTRY_TO_PHONE: Record<string, string> = {
-  EC: "+593", CO: "+57", PE: "+51", MX: "+52", AR: "+54", CL: "+56",
-  BO: "+591", VE: "+58", PA: "+507", SV: "+503", GT: "+502", US: "+1", ES: "+34",
+const COUNTRY_TO_CURRENCY: Partial<Record<string, CurrencyCode>> = {
+  EC: "USD", CO: "COP", PE: "PEN", MX: "MXN", AR: "ARS", CL: "CLP",
+  ES: "EUR", FR: "EUR", DE: "EUR", IT: "EUR", PT: "EUR",
+  GB: "GBP", UK: "GBP",
 };
 
-const COUNTRY_TO_CURRENCY: Partial<Record<string, CurrencyCode>> = {
-  CO: "COP",
+// Approx fallback rates (USD -> X)
+const FALLBACK_RATES: Record<CurrencyCode, number> = {
+  USD: 1, COP: 4100, PEN: 3.75, MXN: 18, ARS: 1000, CLP: 950, EUR: 0.92, GBP: 0.79,
 };
 
 export const CurrencyProvider = ({ children }: { children: React.ReactNode }) => {
@@ -58,14 +67,12 @@ export const CurrencyProvider = ({ children }: { children: React.ReactNode }) =>
   const [rate, setRate] = useState(1);
   const [loadingRate, setLoadingRate] = useState(false);
   const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
-  const [userOverride, setUserOverride] = useState(false);
 
   // Detect country by IP
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("toddo_currency") : null;
-    if (stored && (stored === "USD" || stored === "COP")) {
-      setCurrencyState(stored);
-      setUserOverride(true);
+    if (stored && stored in CURRENCIES) {
+      setCurrencyState(stored as CurrencyCode);
     }
 
     fetch("https://ipapi.co/json/")
@@ -80,9 +87,7 @@ export const CurrencyProvider = ({ children }: { children: React.ReactNode }) =>
           }
         }
       })
-      .catch(() => {
-        // silent fail, keep USD
-      });
+      .catch(() => {});
   }, []);
 
   // Fetch live exchange rate when currency != USD
@@ -92,48 +97,41 @@ export const CurrencyProvider = ({ children }: { children: React.ReactNode }) =>
       return;
     }
     setLoadingRate(true);
-    // exchangerate.host is free, no key
     fetch(`https://api.exchangerate.host/latest?base=USD&symbols=${currency}`)
       .then((r) => r.json())
       .then((data) => {
         const r = data?.rates?.[currency];
-        if (typeof r === "number" && r > 0) {
-          setRate(r);
-        } else {
-          // Fallback approximate rates (updated 2026)
-          setRate(currency === "COP" ? 4100 : 1);
-        }
+        if (typeof r === "number" && r > 0) setRate(r);
+        else setRate(FALLBACK_RATES[currency]);
       })
-      .catch(() => {
-        setRate(currency === "COP" ? 4100 : 1);
-      })
+      .catch(() => setRate(FALLBACK_RATES[currency]))
       .finally(() => setLoadingRate(false));
   }, [currency]);
 
   const setCurrency = useCallback((c: CurrencyCode) => {
     setCurrencyState(c);
-    setUserOverride(true);
-    try {
-      localStorage.setItem("toddo_currency", c);
-    } catch {}
+    try { localStorage.setItem("toddo_currency", c); } catch {}
   }, []);
 
   const format = useCallback(
     (usd: number) => {
       const value = usd * rate;
+      const info = CURRENCIES[currency];
       if (currency === "USD") {
-        // Whole or with cents
-        return `$${value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+        return `${info.symbol}${value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
       }
-      // COP: round to nearest 100
+      if (currency === "EUR" || currency === "GBP") {
+        return `${info.symbol}${value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+      }
+      // LATAM: round to nearest 100
       const rounded = Math.round(value / 100) * 100;
-      return `$${rounded.toLocaleString("es-CO")}`;
+      return `${info.symbol}${rounded.toLocaleString("es-CO")}`;
     },
     [currency, rate]
   );
 
-  const phoneCode =
-    (detectedCountry && COUNTRY_TO_PHONE[detectedCountry]) || CURRENCIES[currency].phoneCode;
+  // Phone code follows the SELECTED currency (so changing currency updates form country)
+  const phoneCode = CURRENCIES[currency].phoneCode;
 
   return (
     <CurrencyContext.Provider
