@@ -66,14 +66,10 @@ const LeadFormModal = () => {
   const [email, setEmail] = useState("");
   const [niche, setNiche] = useState("");
   const [otherNiche, setOtherNiche] = useState("");
-  const [userTouchedCountry, setUserTouchedCountry] = useState(false);
-
-  // Sync country code when geolocation/currency changes (until user manually picks)
+  // Always sync country code with selected currency (overrides on currency change)
   useEffect(() => {
-    if (!userTouchedCountry && phoneCode) {
-      setCountryCode(phoneCode);
-    }
-  }, [phoneCode, userTouchedCountry]);
+    if (phoneCode) setCountryCode(phoneCode);
+  }, [phoneCode, currency]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
