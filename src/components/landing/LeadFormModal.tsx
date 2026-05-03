@@ -79,27 +79,27 @@ const LeadFormModal = () => {
 
     // Fire-and-forget webhook to persist lead in DB (n8n -> Postgres)
     try {
-      fetch(LEAD_SUBMIT_WEBHOOK, {
+      const params = new URLSearchParams();
+      const append = (k: string, v: unknown) => params.append(k, v == null ? "" : String(v));
+      append("event", "lead_submitted");
+      append("name", name);
+      append("country_code", countryCode);
+      append("phone", phone);
+      append("full_phone", fullPhone);
+      append("email", email);
+      append("niche", selectedNiche);
+      append("other_niche", niche === "Otro nicho" ? otherNiche : "");
+      append("currency", currency);
+      append("detected_country", detectedCountry);
+      append("page_url", typeof window !== "undefined" ? window.location.href : "");
+      append("referrer", typeof document !== "undefined" ? document.referrer : "");
+      append("user_agent", typeof navigator !== "undefined" ? navigator.userAgent : "");
+      const utm = getUtm();
+      Object.entries(utm).forEach(([k, v]) => append(k, v));
+      append("timestamp", new Date().toISOString());
+      fetch(`${LEAD_SUBMIT_WEBHOOK}?${params.toString()}`, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event: "lead_submitted",
-          name,
-          country_code: countryCode,
-          phone,
-          full_phone: fullPhone,
-          email,
-          niche: selectedNiche,
-          other_niche: niche === "Otro nicho" ? otherNiche : null,
-          currency,
-          detected_country: detectedCountry,
-          page_url: typeof window !== "undefined" ? window.location.href : "",
-          referrer: typeof document !== "undefined" ? document.referrer : "",
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-          ...getUtm(),
-          timestamp: new Date().toISOString(),
-        }),
       }).catch(() => {});
     } catch {}
 
