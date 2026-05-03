@@ -51,22 +51,23 @@ export const LeadFormProvider = ({ children }: { children: React.ReactNode }) =>
       // continue without geo
     }
     try {
-      fetch(WEBHOOK_URL, {
+      const params = new URLSearchParams();
+      params.append("event", "lead_form_opened");
+      params.append("message", "Un usuario ha abierto el formulario de demostración");
+      params.append("source", source || "unknown");
+      params.append("url", typeof window !== "undefined" ? window.location.href : "");
+      params.append("referrer", typeof document !== "undefined" ? document.referrer : "");
+      params.append("userAgent", typeof navigator !== "undefined" ? navigator.userAgent : "");
+      params.append("language", typeof navigator !== "undefined" ? navigator.language : "");
+      params.append("screen", typeof window !== "undefined" ? `${window.screen.width}x${window.screen.height}` : "");
+      params.append("timestamp", new Date().toISOString());
+      // Flatten geo into individual params (geo_<key>)
+      Object.entries(geo).forEach(([k, v]) => {
+        params.append(`geo_${k}`, v == null ? "" : String(v));
+      });
+      fetch(`${WEBHOOK_URL}?${params.toString()}`, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event: "lead_form_opened",
-          message: "Un usuario ha abierto el formulario de demostración",
-          source: source || "unknown",
-          url: typeof window !== "undefined" ? window.location.href : "",
-          referrer: typeof document !== "undefined" ? document.referrer : "",
-          userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-          language: typeof navigator !== "undefined" ? navigator.language : "",
-          screen: typeof window !== "undefined" ? `${window.screen.width}x${window.screen.height}` : "",
-          geo,
-          timestamp: new Date().toISOString(),
-        }),
       }).catch(() => {});
     } catch {
       // ignore
