@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import toddoLogo from "@/assets/toddo-logo.svg";
 import calendarIcon from "@/assets/calendar-icon.png";
 
 const Footer = () => (
-  <footer className="border-t border-border bg-secondary py-10 md:py-14">
+  <footer className="relative border-t border-border bg-secondary py-10 md:py-14">
     <div className="container mx-auto flex flex-col items-center gap-5 text-center">
       {/* Logo */}
       <img
@@ -23,6 +24,14 @@ const Footer = () => (
         © {new Date().getFullYear()} TODDO AI — Marketing & Tecnologías. Todos los derechos reservados.
       </p>
     </div>
+    {/* Acceso semi-oculto al panel */}
+    <Link
+      to="/admin/login"
+      aria-label="Acceso panel"
+      className="absolute bottom-2 right-3 text-[10px] text-muted-foreground/30 hover:text-muted-foreground transition-colors"
+    >
+      ·
+    </Link>
   </footer>
 );
 
