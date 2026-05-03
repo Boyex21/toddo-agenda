@@ -23,8 +23,33 @@ export const useLeadForm = () => useContext(LeadFormContext);
 export const LeadFormProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const fireWebhook = useCallback((source?: string) => {
-    // Fire-and-forget; don't block UI
+  const fireWebhook = useCallback(async (source?: string) => {
+    // Try to enrich with geolocation (IP-based). Fire-and-forget overall.
+    let geo: Record<string, unknown> = {};
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      if (res.ok) {
+        const d = await res.json();
+        geo = {
+          ip: d?.ip ?? null,
+          country: d?.country_name ?? null,
+          country_code: d?.country_code ?? null,
+          region: d?.region ?? null,
+          region_code: d?.region_code ?? null,
+          city: d?.city ?? null,
+          postal: d?.postal ?? null,
+          latitude: d?.latitude ?? null,
+          longitude: d?.longitude ?? null,
+          timezone: d?.timezone ?? null,
+          currency: d?.currency ?? null,
+          languages: d?.languages ?? null,
+          org: d?.org ?? null,
+          asn: d?.asn ?? null,
+        };
+      }
+    } catch {
+      // continue without geo
+    }
     try {
       fetch(WEBHOOK_URL, {
         method: "POST",
@@ -37,6 +62,9 @@ export const LeadFormProvider = ({ children }: { children: React.ReactNode }) =>
           url: typeof window !== "undefined" ? window.location.href : "",
           referrer: typeof document !== "undefined" ? document.referrer : "",
           userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+          language: typeof navigator !== "undefined" ? navigator.language : "",
+          screen: typeof window !== "undefined" ? `${window.screen.width}x${window.screen.height}` : "",
+          geo,
           timestamp: new Date().toISOString(),
         }),
       }).catch(() => {});

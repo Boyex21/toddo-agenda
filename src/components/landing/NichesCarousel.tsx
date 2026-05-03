@@ -3,12 +3,22 @@ import nicheInmo from "@/assets/niche-inmobiliaria.png";
 import nicheHotel from "@/assets/niche-hotel.png";
 import nicheSpa from "@/assets/niche-spa.png";
 import nicheViajes from "@/assets/niche-agencia-viajes.png";
+import nicheTaller from "@/assets/niche-taller.jpg";
+import nicheBelleza from "@/assets/niche-belleza.jpg";
+import nicheOdontologia from "@/assets/niche-odontologia.jpg";
+import nichePeluqueria from "@/assets/niche-peluqueria.jpg";
+import nicheBarberia from "@/assets/niche-barberia.jpg";
 
 const slides = [
   { src: nicheInmo, alt: "IA para Inmobiliarias" },
   { src: nicheHotel, alt: "IA para Recepcionistas de Hoteles" },
   { src: nicheSpa, alt: "IA para Spas y Centros de Bienestar" },
   { src: nicheViajes, alt: "IA para Agencias Turísticas" },
+  { src: nicheTaller, alt: "IA para Talleres Mecánicos" },
+  { src: nicheBelleza, alt: "IA para Salones de Belleza" },
+  { src: nicheOdontologia, alt: "IA para Odontologías y Clínicas Dentales" },
+  { src: nichePeluqueria, alt: "IA para Peluquerías de Mujeres" },
+  { src: nicheBarberia, alt: "IA para Barberías y Peluquerías de Hombres" },
 ];
 
 // Duplicate for seamless infinite loop
