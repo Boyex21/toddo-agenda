@@ -14,6 +14,7 @@ import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminAccounts from "@/pages/admin/Accounts";
 import AdminResellers from "@/pages/admin/Resellers";
 import AdminPlans from "@/pages/admin/Plans";
+import AdminResellerTiers from "@/pages/admin/ResellerTiers";
 import AdminLeads from "@/pages/admin/Leads";
 import AdminStats from "@/pages/admin/Stats";
 import Index from "./pages/Index.tsx";
