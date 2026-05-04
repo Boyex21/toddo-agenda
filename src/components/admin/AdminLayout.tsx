@@ -4,6 +4,7 @@ import {
   Users,
   Building2,
   Package,
+  Layers,
   Inbox,
   BarChart3,
   LogOut,
