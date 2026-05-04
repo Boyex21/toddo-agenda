@@ -22,6 +22,7 @@ const navItems = [
   { to: "/admin/leads", label: "Leads", icon: Inbox, adminOnly: false },
   { to: "/admin/stats", label: "Stats", icon: BarChart3, adminOnly: false },
   { to: "/admin/resellers", label: "Resellers", icon: Users, adminOnly: true },
+  { to: "/admin/reseller-tiers", label: "Tiers", icon: Layers, adminOnly: true },
   { to: "/admin/plans", label: "Planes", icon: Package, adminOnly: true },
 ];
 
