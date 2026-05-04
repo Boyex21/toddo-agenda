@@ -64,6 +64,14 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="reseller-tiers"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <AdminResellerTiers />
+                      </ProtectedRoute>
+                    }
+                  />
                 </Route>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
