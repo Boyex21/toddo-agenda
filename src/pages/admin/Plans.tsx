@@ -8,7 +8,14 @@ const plans = [
 
 const Plans = () => (
   <div className="space-y-4">
-    <h1 className="text-2xl font-bold">Planes</h1>
+    <div>
+      <h1 className="text-2xl font-bold">Planes de servicio</h1>
+      <p className="text-sm text-muted-foreground">
+        Precios base que paga el cliente final. Las comisiones de los resellers
+        se calculan sobre estos valores. Para cambiar comisiones, ver
+        "Tipos de Reseller".
+      </p>
+    </div>
     <div className="grid gap-3 md:grid-cols-3">
       {plans.map((p) => (
         <Card key={p.code}>
