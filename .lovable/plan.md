@@ -1,131 +1,101 @@
-## Mini SaaS — Fase 1: DB + Login + Panel base
 
-### Arquitectura
-```
-Postgres (tu server)  ──►  NocoDB (API REST + token)  ──►  Lovable Frontend (Admin + Reseller panel)
-                                                                │
-Landing actual ────────────────────────────────────────────────►│ POST form_interactions
-                                                                │
-Webhook n8n (sigue activo en paralelo)
-```
-Login custom contra Postgres vía NocoDB API. JWT firmado en el cliente no es seguro, así que el JWT lo emitiremos desde una **Edge Function** de Lovable Cloud (solo se usa como "backend ligero" para hashing bcrypt + firmar/verificar JWT, NO para almacenar usuarios). Los datos viven 100% en tu Postgres.
+## Corrección: separar "Planes de servicio" de "Tipos de reseller"
+
+Confusión actual: la tabla `plans` mezcla dos conceptos. Hay que separar:
+
+- **Planes de servicio** (lo que paga el cliente final): Básico $25, Pro $40, Socio América $0 → siguen en `plans` y se asocian a `accounts`.
+- **Tipos de reseller** (modelo de comisión del partner): Reseller Full, Reseller White-Label, Agencia de Marketing → nueva tabla `reseller_tiers` asociada a `resellers`.
 
 ---
 
-### 1. Script SQL para tu Postgres
+### Reglas de negocio a modelar
 
-Te entrego un `schema.sql` listo para ejecutar. Estructura:
+| Tipo de reseller            | Comisión                                  | Puede editar precio de venta |
+|-----------------------------|-------------------------------------------|------------------------------|
+| `reseller_full`             | 50% del precio base publicado             | No                           |
+| `reseller_white_label`      | 50% del precio base publicado             | Sí (override por cuenta)     |
+| `marketing_agency`          | 30% primer pago **o** 10% recurrente      | No                           |
 
-**Tablas**
-- `plans` — catálogo de los 3 planes (seed incluido)
-- `resellers` — usuarios login (admin + reseller). Password hasheado bcrypt
-- `accounts` — cuentas finales de clientes, FK a `reseller_id` y `plan_id`
-- `form_interactions` — leads del landing + tracking (geo, utm, source)
-- `account_events` — interacciones/estadísticas por cuenta (mensajes, conversiones, etc.)
-- `sessions` — refresh tokens / sesiones activas (opcional pero recomendado)
-
-**Enums**
-- `user_role`: `admin`, `reseller`
-- `account_status`: `active`, `paused`, `cancelled`, `trial`
-- `plan_code`: `basic_25`, `pro_40`, `socio_america`
-
-**Seed de planes**
-| code | name | monthly_price | setup_fee | currency |
-|---|---|---|---|---|
-| basic_25 | Plan Básico | 25 | 90 | USD |
-| pro_40 | Plan Pro | 40 | 90 | USD |
-| socio_america | Socio América | 0 | 0 | USD |
-
-**Índices** en `accounts.reseller_id`, `form_interactions.created_at`, `account_events.account_id + created_at`.
-
-**Usuario admin inicial** se inserta al final con un placeholder de hash que generaremos juntos.
+- Para `marketing_agency` se elige al crear la cuenta cuál de los dos esquemas aplica (`one_time_30` o `recurring_10`), guardado en la cuenta.
+- "Precio base" = `plans.monthly_price` y `plans.setup_fee`.
+- Solo `reseller_white_label` puede setear `accounts.monthly_price` / `accounts.setup_fee` (override). Para los demás se ignora el override y se usa el del plan.
 
 ---
 
-### 2. NocoDB
-Una vez ejecutes el SQL y conectes la DB a NocoDB:
-- Me pasas: URL base de NocoDB, API token, y el `base_id` (o nombres de tablas como NocoDB las expone).
-- Yo creo un cliente HTTP centralizado (`src/lib/nocodb.ts`) que lee `VITE_NOCODB_URL` y un secret `NOCODB_TOKEN` (el token va en Edge Function, nunca en el bundle).
+### Cambios en `schema.sql`
+
+1. **Nuevo enum** `reseller_tier_code`: `reseller_full | reseller_white_label | marketing_agency`.
+2. **Nuevo enum** `commission_model`: `percent_of_base | first_payment_pct | recurring_pct`.
+3. **Nuevo enum** `agency_commission_choice`: `one_time_30 | recurring_10` (solo aplica si tier = marketing_agency).
+4. **Nueva tabla `reseller_tiers`** (catálogo, seed con los 3 tipos):
+   - `code` (enum), `name`, `description`
+   - `commission_model`, `commission_pct` (50 / 30 / 10)
+   - `can_override_price` boolean
+   - `allows_commission_choice` boolean (true para marketing_agency)
+   - `is_active`, timestamps
+5. **`resellers`**:
+   - quitar `commission_pct` (ahora vive en tier).
+   - agregar `tier_id uuid NOT NULL REFERENCES reseller_tiers(id)`.
+   - quitar `plan_id` (los planes son del cliente, no del reseller).
+6. **`accounts`**:
+   - agregar `agency_commission_choice agency_commission_choice` (nullable, requerido solo si el reseller es agencia).
+   - agregar columnas calculadas/generadas para snapshot de comisión:
+     - `commission_pct_snapshot numeric(5,2)` — congela el % al crear la cuenta.
+     - `commission_model_snapshot commission_model`.
+   - mantener `monthly_price` / `setup_fee` como override, pero documentar que solo se respeta si el tier permite override.
+7. **Vista `account_billing_view`** que devuelve para cada cuenta:
+   - `effective_monthly_price`, `effective_setup_fee` (override si white-label, si no del plan).
+   - `reseller_commission_first_payment`, `reseller_commission_recurring` (calculados según tier + choice).
+8. **Función `fn_calc_commission(account_id, payment_type)`** que retorna el monto de comisión para un pago dado (`setup` o `monthly`, ocurrencia 1 o N).
+9. **Trigger en `accounts`**:
+   - valida que `monthly_price` / `setup_fee` solo se permitan setear si el tier del reseller tiene `can_override_price = true`; si no, los fuerza a NULL.
+   - valida que `agency_commission_choice` esté presente si tier = `marketing_agency`, y NULL en otros casos.
+   - al insertar, copia `commission_pct` y `commission_model` del tier al snapshot.
+10. **Seed de `reseller_tiers`** con los 3 tipos y sus parámetros.
+11. **Migración suave**: como aún no estás en producción, el script se mantiene re-ejecutable (`CREATE TABLE IF NOT EXISTS`, enums con `DO $$ … duplicate_object`).
+
+Entrego el `schema.sql` actualizado en `/mnt/documents/schema.sql` y un `migration_reseller_tiers.sql` por si ya corriste el anterior.
 
 ---
 
-### 3. Auth (Edge Function + JWT)
-Lovable Cloud habilitado solo como runtime de funciones (no como DB). Endpoints:
-- `POST /auth-login` → valida email+password contra NocoDB, devuelve JWT (15min) + refresh token
-- `POST /auth-refresh` → rota refresh token
-- `POST /auth-me` → valida JWT y devuelve perfil
-- `POST /auth-register-reseller` → solo admin puede crear resellers
+### Cambios en el panel admin (frontend)
 
-Hash con bcrypt. JWT con `JWT_SECRET` (te lo pediré como secret cuando llegue el momento).
-
-Estado en frontend: `AuthContext` con `accessToken` en memoria + refresh token en `httpOnly` no es posible sin dominio propio → usaremos `localStorage` con rotación corta (aceptable para panel admin interno).
-
----
-
-### 4. Acceso al login (semi-oculto en footer)
-- Pequeño link "·" o ícono discreto en `Footer.tsx` esquina inferior derecha.
-- Click abre `/admin/login` (ruta nueva).
-- Sin cambios al header del landing.
-
----
-
-### 5. Panel admin SaaS (mobile-first)
-Rutas protegidas bajo `/admin/*`:
-- `/admin/login` — form email + password
-- `/admin/dashboard` — KPIs (cuentas activas, MRR estimado, leads último 7/30 días, conversiones)
-- `/admin/resellers` — solo admin: lista, crear, editar, asignar plan
-- `/admin/accounts` — lista cuentas, filtro por reseller (admin ve todas, reseller solo las suyas), crear/editar
-- `/admin/plans` — solo admin: ver/editar parámetros de los 3 planes
-- `/admin/leads` — tabla de `form_interactions` con filtros (fecha, país, utm)
-- `/admin/stats` — gráficos (recharts) de eventos por cuenta y conversión de leads
-
-Layout: sidebar colapsable en desktop, bottom tab bar en mobile. Tema oscuro consistente con el landing.
-
----
-
-### 6. Form interactions del landing
-Modificar `LeadFormContext` y `LeadFormModal`:
-- Mantener el webhook de n8n (sin cambios).
-- Añadir en paralelo un `POST` a Edge Function `ingest-lead` que guarda en NocoDB → tabla `form_interactions` (no exponer token al cliente).
+1. **Nueva página** `/admin/reseller-tiers` (solo admin) — CRUD de los 3 tipos de reseller (editar % y reglas).
+2. **`/admin/resellers`** — al crear/editar reseller:
+   - selector de "Tipo de reseller" (dropdown del catálogo).
+   - badge visible del tier y % de comisión.
+3. **`/admin/accounts`** — al crear cuenta:
+   - si reseller es `white_label` → mostrar campos de override de precio.
+   - si reseller es `marketing_agency` → mostrar selector "Esquema de comisión" (30% primer pago / 10% recurrente).
+   - en otros casos, ocultar ambos.
+   - mostrar "Comisión estimada" en vivo calculada en cliente.
+4. **`/admin/plans`** — aclarar copy: "Planes de servicio (cliente final)". Quitar cualquier referencia que mezcle con resellers.
+5. **`/admin/dashboard`** — añadir KPI "Comisiones a pagar (mes)" agrupado por reseller.
+6. **`/admin/stats`** — gráfico de comisiones por tier.
+7. **Tipos TS** en `src/types/saas.ts`:
+   - `ResellerTier`, `ResellerTierCode`, `CommissionModel`, `AgencyCommissionChoice`.
+   - helper `calcCommission(plan, tier, choice, paymentKind, occurrence)` reutilizable en formularios.
 
 ---
 
 ### Detalles técnicos
 
-**Stack añadido**
-- Lovable Cloud (solo edge functions)
-- `bcryptjs`, `jose` (JWT) en edge functions
-- `recharts` para gráficos
-- `zod` para validación
-
-**Archivos nuevos clave**
-- `schema.sql` (te lo entrego para ejecutar manualmente)
-- `src/lib/nocodb.ts` — cliente HTTP (solo usado desde edge functions)
-- `src/contexts/AuthContext.tsx`
-- `src/components/admin/AdminLayout.tsx`, `Sidebar.tsx`, `MobileTabBar.tsx`
-- `src/pages/admin/Login.tsx`, `Dashboard.tsx`, `Resellers.tsx`, `Accounts.tsx`, `Plans.tsx`, `Leads.tsx`, `Stats.tsx`
-- `supabase/functions/auth-login/index.ts`
-- `supabase/functions/auth-refresh/index.ts`
-- `supabase/functions/auth-me/index.ts`
-- `supabase/functions/auth-register-reseller/index.ts`
-- `supabase/functions/ingest-lead/index.ts`
-- Modificar: `Footer.tsx` (link oculto), `App.tsx` (rutas + AuthProvider), `LeadFormContext.tsx` (llamada paralela)
+- `ON CONFLICT (code) DO NOTHING` en seed de tiers para idempotencia.
+- La validación de "solo white-label puede editar precio" se hace **doble**: en el trigger SQL (autoritativo) y en el formulario React (UX).
+- `commission_pct_snapshot` evita que cambiar el tier del reseller mañana altere comisiones de cuentas ya vendidas.
+- La función `fn_calc_commission` permitirá más adelante generar reportes de payout sin lógica duplicada en el frontend.
+- Sigue sin haber dependencia con NocoDB para esta corrección estructural; cuando conectes la DB, NocoDB expondrá la nueva tabla `reseller_tiers` y los nuevos campos automáticamente.
 
 ---
 
-### Orden de ejecución propuesto
-1. Te entrego `schema.sql` → tú lo corres en Postgres.
-2. Conectas Postgres a NocoDB → me das URL + token.
-3. Habilito Lovable Cloud, creo edge functions de auth e ingest-lead, configuro secrets (`NOCODB_URL`, `NOCODB_TOKEN`, `JWT_SECRET`).
-4. Construyo `AuthContext`, ruta `/admin/login` y link semi-oculto en footer.
-5. Construyo layout admin + páginas (Dashboard, Resellers, Accounts, Plans, Leads, Stats).
-6. Conecto landing form → `ingest-lead`.
-7. Genero hash bcrypt para tu primer admin y te paso el `INSERT` para crearlo.
+### Orden de ejecución al aprobar
 
-### Lo que NO incluye esta fase
-- Pagos/cobros automáticos a resellers
-- Integración con WhatsApp Business API desde el panel
-- Multi-idioma del panel (será solo español)
-- Logs de auditoría avanzados
+1. Reescribir `/mnt/documents/schema.sql` con los cambios (idempotente).
+2. Generar `/mnt/documents/migration_reseller_tiers.sql` por si ya corriste el original.
+3. Actualizar `AuthContext` (mock) para incluir `tier` en el usuario.
+4. Crear `src/types/saas.ts` con tipos y helpers de comisión.
+5. Crear página `/admin/reseller-tiers` y agregarla al sidebar (solo admin).
+6. Refactor `/admin/resellers`, `/admin/accounts`, `/admin/plans` con la nueva lógica condicional.
+7. Actualizar `.lovable/plan.md` con la corrección.
 
-¿Aprobamos y arranco con el `schema.sql` + estructura del panel?
+¿Apruebas?
