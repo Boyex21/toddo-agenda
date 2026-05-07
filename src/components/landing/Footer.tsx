@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Lock } from "lucide-react";
 import toddoLogo from "@/assets/toddo-logo.svg";
 import calendarIcon from "@/assets/calendar-icon.png";
 
@@ -27,10 +28,11 @@ const Footer = () => (
     {/* Acceso semi-oculto al panel */}
     <Link
       to="/admin/login"
-      aria-label="Acceso panel"
-      className="absolute bottom-2 right-3 text-[10px] text-muted-foreground/30 hover:text-muted-foreground transition-colors"
+      aria-label="Acceso al panel"
+      title="Acceso panel"
+      className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/40 bg-background/40 text-muted-foreground/50 backdrop-blur-sm transition-all hover:text-foreground hover:border-border hover:bg-background"
     >
-      ·
+      <Lock className="h-3.5 w-3.5" />
     </Link>
   </footer>
 );
