@@ -1,8 +1,5 @@
 project_id = "qdgwnaknzacxlxtpxrhe"
 
-[functions.auth-bootstrap]
-verify_jwt = false
-
 [functions.auth-login]
 verify_jwt = false
 
