@@ -1,6 +1,6 @@
 // JWT (HS256) helpers using djwt + bcrypt for password hashing.
 import { create, verify, getNumericDate, type Payload } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import bcrypt from "npm:bcryptjs@2.4.3";
 
 const SECRET = Deno.env.get("JWT_SECRET") ?? "dev-secret-change-me";
 
@@ -46,11 +46,11 @@ export async function getAuth(req: Request): Promise<Claims | null> {
 }
 
 export async function hashPassword(plain: string): Promise<string> {
-  return await bcrypt.hash(plain);
+  return bcrypt.hashSync(plain, 10);
 }
 export async function comparePassword(plain: string, hash: string): Promise<boolean> {
   try {
-    return await bcrypt.compare(plain, hash);
+    return bcrypt.compareSync(plain, hash);
   } catch {
     return false;
   }

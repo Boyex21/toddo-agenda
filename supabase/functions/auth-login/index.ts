@@ -10,7 +10,8 @@ Deno.serve(async (req) => {
   if (!email || !password) return err("Email y contraseña requeridos", 400);
 
   const user = await ncFindOne<any>("resellers", `(email,eq,${email})`);
-  if (!user || !user.password_hash) return err("Credenciales inválidas", 401);
+  if (!user) return err("Credenciales inválidas", 401);
+  if (!user.password_hash) return err("Credenciales inválidas", 401);
   if (user.is_active === false || user.is_active === 0)
     return err("Cuenta desactivada", 403);
 
@@ -25,7 +26,6 @@ Deno.serve(async (req) => {
     full_name: user.full_name,
   });
 
-  // best-effort touch
   try {
     await ncUpdate("resellers", { Id: user.id ?? user.Id, last_login_at: new Date().toISOString() });
   } catch { /* noop */ }
