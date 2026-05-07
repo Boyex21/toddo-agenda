@@ -54,9 +54,6 @@ export const api = {
   remove: (entity: string, id: string | number) =>
     call(`/admin-data/${entity}/${id}`, { method: "DELETE" }),
 
-  bootstrap: (secret: string, body: { email: string; password: string; full_name?: string }) =>
-    call("/auth-bootstrap", { method: "POST", body, headers: { "x-bootstrap-secret": secret } }),
-
   ingestLead: (body: Record<string, any>) =>
     call("/lead-ingest", { method: "POST", body }),
 };
