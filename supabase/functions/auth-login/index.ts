@@ -10,12 +10,15 @@ Deno.serve(async (req) => {
   if (!email || !password) return err("Email y contraseña requeridos", 400);
 
   const user = await ncFindOne<any>("resellers", `(email,eq,${email})`);
-  if (!user || !user.password_hash) return err("Credenciales inválidas", 401);
+  console.log("login attempt", { email, found: !!user, hasHash: !!user?.password_hash, hashPrefix: user?.password_hash?.slice(0, 7) });
+  if (!user) return err("Credenciales inválidas (user not found)", 401);
+  if (!user.password_hash) return err("Credenciales inválidas (no hash)", 401);
   if (user.is_active === false || user.is_active === 0)
     return err("Cuenta desactivada", 403);
 
   const ok = await comparePassword(password, user.password_hash);
-  if (!ok) return err("Credenciales inválidas", 401);
+  console.log("compare result", { ok });
+  if (!ok) return err("Credenciales inválidas (bad password)", 401);
 
   const token = await signJwt({
     sub: String(user.id ?? user.Id),
