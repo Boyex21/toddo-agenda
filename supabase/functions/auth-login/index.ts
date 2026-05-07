@@ -1,17 +1,10 @@
 import { corsHeaders, err, json } from "../_shared/http.ts";
 import { ncFindOne, ncUpdate } from "../_shared/nocodb.ts";
-import { comparePassword, hashPassword, signJwt } from "../_shared/auth.ts";
+import { comparePassword, signJwt } from "../_shared/auth.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return err("Method not allowed", 405);
-
-  const url = new URL(req.url);
-  if (url.searchParams.get("genhash")) {
-    const { password } = await req.json().catch(() => ({}));
-    if (!password) return err("password required", 400);
-    return json({ hash: await hashPassword(password) });
-  }
 
   const { email, password } = await req.json().catch(() => ({}));
   if (!email || !password) return err("Email y contraseña requeridos", 400);
