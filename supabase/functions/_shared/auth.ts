@@ -46,11 +46,11 @@ export async function getAuth(req: Request): Promise<Claims | null> {
 }
 
 export async function hashPassword(plain: string): Promise<string> {
-  return await bcrypt.hash(plain);
+  return bcrypt.hashSync(plain, 10);
 }
 export async function comparePassword(plain: string, hash: string): Promise<boolean> {
   try {
-    return await bcrypt.compare(plain, hash);
+    return bcrypt.compareSync(plain, hash);
   } catch {
     return false;
   }
