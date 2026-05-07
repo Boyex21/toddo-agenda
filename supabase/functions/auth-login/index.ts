@@ -1,24 +1,29 @@
 import { corsHeaders, err, json } from "../_shared/http.ts";
 import { ncFindOne, ncUpdate } from "../_shared/nocodb.ts";
-import { comparePassword, signJwt } from "../_shared/auth.ts";
+import { comparePassword, hashPassword, signJwt } from "../_shared/auth.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return err("Method not allowed", 405);
 
+  const url = new URL(req.url);
+  if (url.searchParams.get("genhash")) {
+    const { password } = await req.json().catch(() => ({}));
+    if (!password) return err("password required", 400);
+    return json({ hash: await hashPassword(password) });
+  }
+
   const { email, password } = await req.json().catch(() => ({}));
   if (!email || !password) return err("Email y contraseña requeridos", 400);
 
   const user = await ncFindOne<any>("resellers", `(email,eq,${email})`);
-  console.log("login attempt", { email, found: !!user, hasHash: !!user?.password_hash, hashPrefix: user?.password_hash?.slice(0, 7) });
-  if (!user) return err("Credenciales inválidas (user not found)", 401);
-  if (!user.password_hash) return err("Credenciales inválidas (no hash)", 401);
+  if (!user) return err("Credenciales inválidas", 401);
+  if (!user.password_hash) return err("Credenciales inválidas", 401);
   if (user.is_active === false || user.is_active === 0)
     return err("Cuenta desactivada", 403);
 
   const ok = await comparePassword(password, user.password_hash);
-  console.log("compare result", { ok });
-  if (!ok) return err("Credenciales inválidas (bad password)", 401);
+  if (!ok) return err("Credenciales inválidas", 401);
 
   const token = await signJwt({
     sub: String(user.id ?? user.Id),
@@ -28,7 +33,6 @@ Deno.serve(async (req) => {
     full_name: user.full_name,
   });
 
-  // best-effort touch
   try {
     await ncUpdate("resellers", { Id: user.id ?? user.Id, last_login_at: new Date().toISOString() });
   } catch { /* noop */ }
